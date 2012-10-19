@@ -16,9 +16,10 @@ class Entry(db.Model):
     fieldtype = CharField()
     value = TextField()
     parent = CharField()
-    speakr_hash = TextField()
-    speakr_name = TextField()
-    present_name = TextField()
+
+    def unique_id():
+        """this can be used to identify a certain entry (ignoring its value or date)"""
+        return "{}_{}_{}_{}".format(self.user, self.site, self.fieldname, self.type)
 
     def __unicode__(self):
         return u"user: {} - site: {} ({} - {})".format(self.user, self.site,
