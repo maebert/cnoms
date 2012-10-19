@@ -17,7 +17,7 @@ def parse_html(html_doc):
     for s in soup.find_all(True):
         if 'data-fieldname' in s.attrs:
             tmp = {'fieldname': s.attrs['data-fieldname'],
-                   'type': s.attrs.get('data-type', 'plain'),
+                   'type': s.attrs.get('data-type', 'html'),
                    'value': s.get_text()}
             for_db.append(tmp)
             s.clear()
