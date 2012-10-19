@@ -33,12 +33,19 @@ h1 {
     border-style: solid;
     border-width: 15px;
     border-color: #757574;
-
     margin: 20px;
 }
 
-#focus_div {
+.focus_div {
     background: #DE9D52;
+    margin: 20px;
+    padding: 20px;
+    font-family: serif;
+    font-size: 20px;
+}
+
+.caption {
+    padding: 0px 20px;
 }
 
 /* =Misc
