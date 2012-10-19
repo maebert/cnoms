@@ -7,6 +7,12 @@ import cnoms
 def init(app):
     from cnoms import models
     models.Entry.create_table(fail_silently=True)
+    test = models.Entry.create(
+        user = "localuser",
+        site = "tests",
+        fieldname = "title",
+        value = "Hello World!"
+    )
 
 if __name__ == "__main__":
     local = "-l" in sys.argv

@@ -6,7 +6,7 @@ class Base:
     SECRET_KEY = 'seenomess'
     DEBUG = True
     DATABASE = {
-        'name': 'example.db',
+        'name': 'cnoms.db',
         'engine': 'peewee.SqliteDatabase',
     }
     HOST = '0.0.0.0'
