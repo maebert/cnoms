@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div data-fieldname="blog" data-type="collection">
+        <div data-type="item">
+            <h1 data-fieldname="title">My first entry</h1>
+            <p data-fieldname="body">Blah</p>
+        </div>
+        <div data-type="item">
+            <h1 data-fieldname="title">My second entry</h1>
+            <p data-fieldname="body">Unicorns</p>
+        </div>
+    </div>
+</body>
+</html>
+<!-- RESULT
+<body>
+    <div data-fieldname="blog" data-type="collection">
+        {% for item in blog %}
+        <div data-type="item" data-fieldname="{{ item.fieldname }}">
+            <h1 data-fieldname="title">{{ item.title }}</h1>
+            <p data-fieldname="body">{{ item.body }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</body>
+ -->
+<!-- DATABASE:
+fieldname    type          value             parent
+=========    ====          =====             ======
+blog         collection    NONE              NONE
+blog_1       item          NONE              blog
+title        plain         My first entry    blog_1
+content      html          Blah              blog_1
+blog_2       item          NONE              blog
+title        plain         My second entry   blog_2
+content      html          Unicorns          blog_2
+ -->
