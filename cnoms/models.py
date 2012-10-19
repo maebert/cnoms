@@ -10,12 +10,12 @@ from datetime import datetime
 
 class Entry(db.Model):
     created = DateTimeField(default=datetime.now)
-    user = CharField()
+    user = CharField(default="localuser")
     site = CharField()
     fieldname = CharField()
-    fieldtype = CharField()
-    value = TextField()
-    parent = CharField()
+    fieldtype = CharField(default="plain")
+    value = TextField(null=True)
+    parent = CharField(null=True)
 
     def unique_id():
         """this can be used to identify a certain entry (ignoring its value or date)"""
