@@ -13,7 +13,7 @@ class Entry(db.Model):
     user = CharField(default="localuser")
     site = CharField()
     fieldname = CharField()
-    fieldtype = CharField(default="plain")
+    fieldtype = CharField(default="html")
     value = TextField(null=True)
     parent = CharField(null=True)
 
