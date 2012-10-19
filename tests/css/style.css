@@ -9,6 +9,9 @@ html, body {
 body {
 	font-family: Helvetica, Arial, sans-serif;	
 	font-size: 14px;
+    background: #DAE2ED;
+    width: 800px;
+    margin: 20px auto;
 }
 
 
@@ -17,6 +20,14 @@ body {
 #page {
 	width: 940px;
 	margin: 50px auto;
+}
+
+.image {
+    border-style: solid;
+    border-width: 15px;
+    border-color: #757574;
+
+    margin: 20px;
 }
 
 /* =Misc
