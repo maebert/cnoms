@@ -29,5 +29,11 @@ if __name__ == "__main__":
         init(app)
     if "parse" in sys.argv:
         parse_single(sys.argv[2])
+    if "import" in sys.argv:
+        from cnoms.server.server import import_website
+        from cnoms.models import Entry
+        Entry.create_table(fail_silently=True)
+        import_website('tests/test_website1', "dedan")
+
     else:
         app.run(host=app.config['HOST'], port=app.config['PORT'])
