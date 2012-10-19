@@ -1,5 +1,5 @@
 *.py[co]
-
+.DS_Store
 # Packages
 *.egg
 *.egg-info
@@ -12,6 +12,7 @@ var
 sdist
 develop-eggs
 .installed.cfg
+cnoms.db
 
 # Installer logs
 pip-log.txt
