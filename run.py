@@ -14,11 +14,20 @@ def init(app):
         value = "Hello World!"
     )
 
+def parse_single(filename):
+    from cnoms.parser import parser
+    with open(filename) as html:
+        template, for_db = parser.parse_html(html.read())
+        print template
+        print for_db
+
 if __name__ == "__main__":
     local = "-l" in sys.argv
     app = cnoms.create_app(local)
 
     if "init" in sys.argv:
         init(app)
+    if "parse" in sys.argv:
+        parse_single(sys.argv[2])
     else:
         app.run(host=app.config['HOST'], port=app.config['PORT'])
