@@ -1,4 +1,4 @@
-cnoms
+CNoMS
 =====
 
 Content No-Management System. Works like....
