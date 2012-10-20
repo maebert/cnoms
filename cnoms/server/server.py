@@ -3,7 +3,7 @@
 """
     the actual flask app
 """
-import os, glob
+import os, glob, json
 from cnoms.models import Entry
 from cnoms.parser.parser import parse_html
 from cnoms import app
@@ -16,6 +16,15 @@ def change_entry(user, site):
     """receive entry changes via ajax call"""
     Entry.create(user=user, site=site, **request.form)
     return ''
+
+@app.route('/<user>/<site>/<fieldname>')
+def get_field_history(user, site, fieldname):
+    """get the history of one field (for the history slider)"""
+    entries = Entry.select().where(Entry.user==user,
+                                   Entry.site==site,
+                                   Entry.fieldname==fieldname).order_by(Entry.created.desc())
+    data = [{entry.fieldname: entry.value} for entry in entries]
+    return json.dumps(data)
 
 @app.route('/<user>/<site>')
 @app.route('/<user>/<site>/<template>')
