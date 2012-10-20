@@ -8,8 +8,8 @@
 <body class="overview">
     <div id="content" class="">
     <div id="sites">
-	{% for site in sites %}    
-		<a class="site" href="{{ url_for('show_site_admin', user=user, site=site)}}">
+	{% for site in sites %}
+		<a class="site" href="{{ url_for('show_template', user=user, site=site['name'])}}">
             <div class="logo" style="background-image: url({{ url_for('static', filename="{}/{}/__icon.png".format(user, site.name)) }})"></div>
             <div class="name">{{site.name}}</div>
         </a>
