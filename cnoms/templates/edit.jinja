@@ -38,6 +38,8 @@ $(document).ready(function(){
                 'type': $(that).data('type'),
                 'value': $(that).getCode()
             });
+            $(that).destroyEditor();
+            hide_tools();
         })
 
         tools.append(edit, save, cancel);

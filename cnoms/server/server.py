@@ -22,7 +22,7 @@ def change_entry(user, site):
 def show_template(user, site, template, edit=False):
     """render a template with the latest content for an entry"""
 
-    entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.desc())
+    entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.asc())
     latest_entries = []
     seen_entries = []
     for e in entries:
