@@ -36,4 +36,5 @@ if __name__ == "__main__":
         import_website('tests/test_website1', "dedan")
 
     else:
+        import cnoms.server.server
         app.run(host=app.config['HOST'], port=app.config['PORT'])
