@@ -17,12 +17,17 @@ def change_entry(user, site):
     Entry.create(user=user, site=site, **request.form)
     return ''
 
-@app.route('/<user>/<site>/<fieldname>')
-def get_field_history(user, site, fieldname):
-    """get the history of one field (for the history slider)"""
-    entries = Entry.select().where(Entry.user==user,
-                                   Entry.site==site,
-                                   Entry.fieldname==fieldname).order_by(Entry.created.desc())
+@app.route('/data/<user>/<site>')
+@app.route('/data/<user>/<site>/<fieldname>')
+def get_field_history(user, site, fieldname=None):
+    """get the history of one field (for the history slider) (or for all - global slider)"""
+    if fieldname:
+        entries = Entry.select().where(Entry.user==user,
+                                       Entry.site==site,
+                                       Entry.fieldname==fieldname).order_by(Entry.created.desc())
+    else:
+        entries = Entry.select().where(Entry.user==user,
+                                       Entry.site==site).order_by(Entry.created.desc())
     data = [{entry.fieldname: entry.value} for entry in entries]
     return json.dumps(data)
 
