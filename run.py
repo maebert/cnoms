@@ -33,12 +33,12 @@ if __name__ == "__main__":
     elif "parse" in sys.argv:
         parse_single(sys.argv[2])
     elif "import" in sys.argv:
-        from cnoms.server.server import import_website
+        from cnoms.parser.parser import import_website
         from cnoms.models import Entry
         Entry.create_table(fail_silently=True)
         import_website("localuser", sys.argv[2])
     elif "watch" in sys.argv:
-        from cnoms.server.server import import_website
+        from cnoms.parser.parser import import_website
         from cnoms.utils import WatchChanges
         # start the file system observer
         event_handler = WatchChanges(sys.argv[2])

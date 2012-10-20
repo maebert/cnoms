@@ -11,7 +11,6 @@ from cnoms.parser.parser import parse_html
 from cnoms import app
 from flask import Response, render_template_string, request
 from datetime import datetime
-import shutil
 
 @app.route('/<user>/<site>/change_entry', methods=['POST'])
 def change_entry(user, site):
@@ -72,44 +71,3 @@ def show_template(user, site, template=None, edit=False):
 def edit_page(user, site, template):
     return show_template(user, site, template, edit=True)
 
-# TODO: restrict this function to work only localy
-@app.route('/import_website', methods=['POST'])
-def import_website(user=None, path_to_site=None):
-    """import a website
-
-        * create templates
-        * add content to database
-        * copy static files
-    """
-    print 'import_website'
-    if not (user and path_to_site):
-        path_to_site = request.args['path_to_site']
-        user = request.args['user']
-    # copy static files
-    path = os.path.dirname(__file__)
-    sitename = os.path.basename(os.path.normpath(path_to_site))
-    new_static_path = os.path.join(path, '..', 'static', user, sitename)
-    if os.path.exists(os.path.join(path, '..', 'static', user)):
-        shutil.rmtree(os.path.join(path, '..', 'static', user))
-    if os.path.exists(os.path.join(path_to_site, 'static')):
-        shutil.copytree(os.path.join(path_to_site, 'static'),
-                        new_static_path)
-
-    # create templates and add parsed stuff to db
-    new_templates_path = os.path.join(path, '..', 'templates', user, sitename)
-    if not os.path.exists(new_templates_path):
-        os.makedirs(new_templates_path)
-    print os.path.join(path_to_site, '*.html')
-
-    db_fields = []
-    for filename in os.listdir(path_to_site):
-        if any([filename.endswith(ext) for ext in app.config['HTML_EXT']]):
-            template, for_db = parse_html(open(os.path.join(path_to_site, filename)).read(), user, sitename)
-            db_fields.extend(for_db)
-            save_path = os.path.join(new_templates_path, os.path.basename(filename))
-            with open(save_path, 'w') as f:
-                f.write(str(template))
-    print db_fields
-    for db_entry in db_fields:
-        Entry.get_or_create(user=user, site=sitename, **db_entry)
-    return ''
