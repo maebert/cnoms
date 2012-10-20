@@ -1,6 +1,8 @@
+<a id='edit_link' href="{{url_for('show_template', user=__user, site=__site, template=__template)}}">done editing</a>
 <script src="{{ url_for('static', filename='__/js/jquery-1.8.2.min.js') }}"></script>
 <script src="{{ url_for('static', filename='__/js/redactor.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='__/js/redactor.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='__/css/global.css') }}" />
 <script type="text/javascript">
 
 
@@ -9,7 +11,7 @@
   $.fn.cnoms_collection = function (option) {
     return this.each(function () {
         var $template = $($(this).find("[data-type=item]").first())
-        
+
         var tools = $("<div>", {'class': "tools"});
         var new_btn = $("<button>", {class: "new_btn", text:"Add..."}).bind('click', function() {
             var $clone = $template.clone(true)
@@ -51,10 +53,10 @@
             $(edit).show();
             $(save).hide();
             $(cancel).hide();
-        }        
+        }
         var original = null;
         edit.bind('click', function() {
-            $(that).redactor({air: true}); 
+            $(that).redactor({air: true});
             original = $(that).getCode();
             show_tools();
         });
