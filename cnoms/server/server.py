@@ -38,10 +38,13 @@ def show_site_admin(user, site):
 @app.route('/<user>')
 def show_user(user):
     """show all information for a user"""
-    static_path = os.path.join(os.path.dirname(__file__), '..', 'static', user)
-    # using a variable called sites creates weird effects, therefore sites_
-    sites_ = [s for s in os.listdir(static_path)]
-    return render_template('show_user.html', sites_=sites_, user=user)
+    leads = Entry.select().where(Entry.user==user).group_by(Entry.site)
+    sites = []
+    for site in leads:
+        sites.append({
+            "name": site.site
+        })
+    return render_template('show_user.html', sites=sites, user=user)
 
 
 @app.route('/<user>/<site>/change_entry', methods=['POST'])

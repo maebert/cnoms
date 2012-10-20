@@ -1,12 +1,16 @@
 <html>
 <head>
-	<title>user</title>
+	<title>CNoMS - {{user}}</title>
+    <link href="{{ url_for('static', filename='__/css/global.css') }}" rel="stylesheet">
 </head>
-<body>
-	<h1>Hello {{ user }}</h1>
-
-	{% for site in sites_ %}
-		<a href="{{ url_for('show_site_admin', user=user, site=site)}}">{{site}}</a>
+<body class="overview">
+    <div id="sites">
+	{% for site in sites %}    
+		<a class="site" href="{{ url_for('show_site_admin', user=user, site=site)}}">
+            <div class="logo"></div>
+            <div class="name">{{site.name}}</div>
+        </a>
 	{% endfor %}
+    </div>
 </body>
 </html>
