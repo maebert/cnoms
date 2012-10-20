@@ -1,0 +1,47 @@
+body.overview {
+    background: url(../bin/background.png) top left repeat #333;
+    box-shadow: inset 0px 20px 40px -5px rgba(0,0,0,.2);
+    padding: 1px;
+    margin: 0px;
+}
+
+#sites {
+    margin: 50px;
+}
+
+#sites .site {
+    display: inline-block;
+    width: 196px;
+    text-decoration: none;
+    margin: 20px;
+    -webkit-transition: all .5s ease;
+}
+
+#sites .site .logo {
+    background: #6a9ed7;
+    width: 196px;
+    height: 196px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px 5px rgba(0,0,0,.2), inset 0px 60px 60px rgba(255,255,255,.4), inset 0px 0px 0px 98px rgba(255,255,255,0);;
+    -webkit-transition: all .5s ease;
+}
+
+#sites .site .name {
+    text-align: center;
+    font-family: Junction, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    letter-spacing: 200%;
+    color: #ccc;
+    text-shadow: 0px -2px 0px black;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -webkit-transition: all .5s ease;
+}
+#sites .site:hover .logo {
+    box-shadow: 0px 5px 10px 5px rgba(0,0,0,.2), inset 0px 60px 60px rgba(255,255,255,.5), inset 0px 0px 0px 98px rgba(255,255,255,.2);
+    -webkit-transform: scale(1.1);
+}
+#sites .site:hover .name {
+    color: #eee;
+}
