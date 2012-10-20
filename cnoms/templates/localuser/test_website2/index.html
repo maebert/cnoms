@@ -43,14 +43,14 @@
    </header>
    <section data-fieldname="blog" data-type="collection" id="articles">
     {% for item in blog %}
-    <article data-fieldname="{{ item.fieldname }}" data-parent="blog" data-type="item" id="article1">
+    <article data-fieldname="{{ item.__name }}" data-parent="blog" data-type="item" id="article1">
      <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
-     <h2 data-fieldname="entry_title" data-parent="{{ item.parent }}">
+     <h2 data-fieldname="entry_title" data-parent="{{ item.__name }}">
       {{ item.entry_title }}
      </h2>
      <div class="line">
      </div>
-     <div class="articleBody clear" data-fieldname="entry_body" data-parent="{{ item.parent }}">
+     <div class="articleBody clear" data-fieldname="entry_body" data-parent="{{ item.__name }}">
       {{ item.entry_body }}
      </div>
     </article>
