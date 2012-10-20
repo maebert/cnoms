@@ -17,11 +17,10 @@ def change_entry(user, site):
     Entry.create(user=user, site=site, **request.form)
     return ''
 
-
+@app.route('/<user>/<site>')
 @app.route('/<user>/<site>/<template>')
-def show_template(user, site, template, edit=False):
+def show_template(user, site, template=None, edit=False):
     """render a template with the latest content for an entry"""
-
     entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.asc())
     latest_entries = []
     seen_entries = []
@@ -30,7 +29,12 @@ def show_template(user, site, template, edit=False):
             latest_entries.append(e)
             seen_entries.append(e.unique_id)
     templates_path = app.jinja_loader.searchpath[0]
-    template_string = open(os.path.join(templates_path, user, site, template)).read()
+    if not template:
+        template = 'index.html'
+    current_template_path = os.path.join(templates_path, user, site, template)
+    if not os.path.exists(current_template_path):
+        return 'template does not exist'
+    template_string = open(current_template_path).read()
     data = {entry.fieldname: entry.value for entry in latest_entries}
     return render_template_string(template_string, __user=user, __site=site, cnoms_edit=edit, **data)
 
