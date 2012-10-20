@@ -31,13 +31,13 @@
     
             <header> <!-- Defining the header section of the page with the appropriate tag -->
             
-                <hgroup>
-                    <h1>An Arc on the Blogosphere</h1>
-                    <h3>Abandons All Mess</h3>
+                <hgroup data-fieldname="headergroup">
+                    <h1 data-fieldname="header">An Arc on the Blogosphere</h1>
+                    <h3 data-fieldname="subheader">Abandons All Mess</h3>
                 </hgroup>
                                 
-                <nav class="clear"> <!-- The nav link semantically marks your main site navigation -->
-                    <ul>
+                <nav class="clear" data-fieldname="navigation"> <!-- The nav link semantically marks your main site navigation -->
+                    <ul data-fieldname="nav_entries">
                         <li><a href="#article1">Menu</a></li>
                         <li><a href="#article2">True Menü</a></li>
                     </ul>
@@ -49,12 +49,12 @@
 
 				<!-- Article 1 start -->
                 
-                <article id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
-                    <h2>It Shouldn't Suck to Edit This</h2>
+                <article data-fieldname="blog" data-type="collection" id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+                    <h2 data-fieldname="entry_title">It Shouldn't Suck to Edit This</h2>
                     
                     <div class="line"></div>
                     
-                    <div class="articleBody clear">
+                    <div data-fieldname="entry_body" class="articleBody clear">
                     
                     	<figure> <!-- The figure tag marks data (usually an image) that is part of the article -->
 	                    	<a href=""><img src="static/happiness.jpeg" width="590" height="340" /></a>
@@ -73,11 +73,11 @@
 
                 
                 <article id="article2">
-                    <h2>The Second Girl I Ever Loved</h2>
+                    <h2 data-fieldname="entry_title">The Second Girl I Ever Loved</h2>
                     
                     <div class="line"></div>
                     
-                    <div class="articleBody clear">
+                    <div data-fieldname="entry_body" class="articleBody clear">
                         
                         <p>Try me again, just try me.</p>
                         <p>Kale chips craft beer narwhal, bespoke VHS sustainable scenester 8-bit fixie hella. Twee gentrify scenester mixtape photo booth, fap wes anderson cred whatever. 3 wolf moon bespoke mixtape typewriter cliche. Sriracha pinterest vegan artisan direct trade thundercats. Shoreditch single-origin coffee mixtape, locavore 8-bit gluten-free craft beer bicycle rights beard etsy raw denim narwhal pitchfork banksy. Ennui viral gluten-free readymade. Sustainable umami pinterest art party, brooklyn skateboard forage williamsburg organic.</p>
@@ -85,6 +85,7 @@
                         <blockquote class="quote">
                             <p> Swag mustache 8-bit banh mi ennui flexitarian. PBR truffaut fingerstache, whatever sartorial synth pop-up ethical small batch bespoke farm-to-table authentic +1 ennui. Quinoa synth fixie, 8-bit pinterest umami tofu small batch marfa art party kogi messenger bag gluten-free kale chips. Fap occupy ethical blog freegan wes anderson gentrify.</p>
                         </blockquote>
+                        <more> <a href="index.html" class="seemore">more</a> </more>
                     </div>
                 </article>
                 

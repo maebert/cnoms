@@ -191,14 +191,19 @@ blockquote{
 more {
     	margin-bottom:30px;
 	text-align:center;
-	font-size:0.825em;
+	font-size:1em;
+}
+
+more a:hover {
+    text-decoration: none;
+    background-color:#28454F;
 }
 
 more a,more a:visited{
 	color:#cccccc;
 	background-color:#213e4a;
 	display:block;
-	padding:2px 4px;
+	padding:6px 8px;
 	z-index:100;
 	position:relative;
 	float:right;
