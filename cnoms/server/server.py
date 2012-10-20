@@ -42,7 +42,8 @@ def show_user(user):
     sites = []
     for site in leads:
         sites.append({
-            "name": site.site
+            "name": site.site,
+            "user": site.user,
         })
     return render_template('show_user.html', sites=sites, user=user)
 

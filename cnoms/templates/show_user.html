@@ -7,7 +7,7 @@
     <div id="sites">
 	{% for site in sites %}    
 		<a class="site" href="{{ url_for('show_site_admin', user=user, site=site)}}">
-            <div class="logo"></div>
+            <div class="logo" style="background-image: url({{ url_for('static', filename="{}/{}/__icon.png".format(user, site.name)) }})"></div>
             <div class="name">{{site.name}}</div>
         </a>
 	{% endfor %}
