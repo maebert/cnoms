@@ -152,10 +152,11 @@ article{
 	background-color:#97AA9E;
 	margin:3em 0;
 	padding:20px;
+	border:10px solid #fff;
 }
 
 figure{
-	border:3px solid #fff;
+	border:10px solid #D3DAC8;
 	float:right;
 	height:300px;
 	margin-left:15px;
@@ -175,17 +176,17 @@ figure img{
 
 blockquote{
     background: #ECECEC;
-	border:3px solid #fff;
+	border:10px solid #D3DAC8;
 	float:right;
 	overflow:hidden;
     color: #3A525C; 
-    margin: 0em 2em; 
+    margin: 0em 2em;
+    margin-bottom: 2em; 
     padding: 1.5em; 
     position: relative;
 
     font-family: georgia, 'times new roman', times, serif;
 	font-size:1.2em;
-	font-weight: medium;
 }
 
 more {
