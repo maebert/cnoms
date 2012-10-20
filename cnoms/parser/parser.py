@@ -28,7 +28,7 @@ def parse_collection(node, user, sitename, parent=None):
                 "parent": collection,
                 "type": "item"
             })
-            item_child, field = parse_node(child, parent=item_name)
+            item_child, field = parse_node(child, user, sitename, parent=item_name)
             fields.extend(field)
             item_index += 1
     node.parsed = True
@@ -75,13 +75,19 @@ def parse_node(head, user, sitename, parent=None):
         reroute_static(node, user, sitename)
     return head, fields
 
+def insert_edit_fields(html):
+    body = html.find("body")
+    body.insert(-1, "{% if cnoms_edit %}{% include '/edit.jinja' %}{% endif %}")
+
 def parse_html(html_doc, user, sitename):
     """ return the template and a list of dictionaries with the
         containing all information we have to add to the database
     """
     soup = BeautifulSoup(html_doc)
-    return parse_node(soup, user, sitename)
-
+    template, fields = parse_node(soup, user, sitename)
+    insert_edit_fields(template)
+    print template
+    return template, fields
 
 if __name__ == '__main__':
     path = os.path.dirname(__file__)

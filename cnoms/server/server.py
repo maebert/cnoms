@@ -13,7 +13,7 @@ import shutil
 
 
 @app.route('/<user>/<site>/<template>')
-def show_template(user, site, template):
+def show_template(user, site, template, edit=False):
     """render a template with the latest content for an entry"""
 
     entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.desc())
@@ -26,7 +26,11 @@ def show_template(user, site, template):
     templates_path = app.jinja_loader.searchpath[0]
     template_string = open(os.path.join(templates_path, user, site, template)).read()
     data = {entry.fieldname: entry.value for entry in latest_entries}
-    return render_template_string(template_string, **data)
+    return render_template_string(template_string, cnoms_edit=edit, **data)
+
+@app.route('/<user>/<site>/<template>/edit')
+def edit_page(user, site, template):
+    return show_template(user, site, template, edit=True)
 
 def import_website(path_to_site, user):
     """import a website

@@ -29,7 +29,7 @@ pip-log.txt
 
 # static files
 cnoms/static
-cnoms/templates
+
 
 # database
 *.db
