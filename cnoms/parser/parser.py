@@ -124,6 +124,8 @@ def import_website(user=None, path_to_site=None):
     if os.path.exists(os.path.join(path_to_site, 'static')):
         shutil.copytree(os.path.join(path_to_site, 'static'),
                         new_static_path)
+    else:
+        os.makedirs(os.path.join(new_static_path, 'static'))
 
     # create templates and add parsed stuff to db
     new_templates_path = os.path.join(path, '..', 'templates', user, sitename)
