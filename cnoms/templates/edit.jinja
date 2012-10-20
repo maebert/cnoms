@@ -39,19 +39,37 @@
   $.fn.cnoms = function (option) {
     return this.each(function () {
         var that = this;
+        var name = $(this).data('fieldname');
         var tools = $("<div>", {'class': "tools"});
         var edit = $("<button>", {class: "edit_btn", text:"Edit"})
         var save = $("<button>", {class: "save_btn", text:"Save"});
         var cancel = $("<button>", {class: "button_btn", text:"Cancel"});
+        var slider = null;
+
+        var change_state = function(state) {
+            $(that).text(state[name]);
+            console.log(state[name])
+        }
+        $.getJSON("http://localhost:5000/data/{{ __user }}/{{ __site }}/"+name, function (result) {
+            console.log(result.length)
+            slider = $("<input>", {type: "range", min: 1, max: result.length, step:1, value: result.length}).bind('change', function() {
+                    state = result[result.length - this.value];
+                    change_state(state)
+            })
+            tools.append(slider);
+            slider.hide();
+        });
 
         var show_tools = function() {
             $(edit).hide();
             $(save).show();
+            $(slider).show();
             $(cancel).show();
         };
         var hide_tools = function() {
             $(edit).show();
             $(save).hide();
+            $(slider).hide();
             $(cancel).hide();
         }
         var original = null;
