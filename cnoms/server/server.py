@@ -78,7 +78,7 @@ def show_template(user, site, template=None, edit=False):
     items = {}
     for e in entries:
         if e.unique_id not in seen_entries:
-            if e.type == "collection":
+            if e.type == "collection" and e.fieldname not in collections:
                 collections[e.fieldname] = []
             elif e.type == "item":
                 collections.get(e.parent, []).append(e.fieldname)
