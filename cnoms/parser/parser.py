@@ -8,31 +8,79 @@ import sys, os
 from bs4 import BeautifulSoup
 import re
 
+def data(node, attr, default=None):
+    """Gets the value of a data attribute of a node"""
+    if hasattr(node, "attrs"):
+        return node.attrs.get("data-"+attr, default)
+
+def parse_collection(node, user, sitename, parent=None):
+    collection = node.attrs['data-fieldname']
+    fields = [{"fieldname": collection, 'type': "collection", "parent": parent}]
+    item_template = None
+    item_index = 1
+    for child in node:
+        if data(child, "type") == "item":
+            if not item_template:
+                item_template = child
+            item_name = child.attrs.get('data-fieldname', "{}_{}".format(collection, item_index))
+            fields.append({
+                "fieldname": item_name,
+                "parent": collection,
+                "type": "item"
+            })
+            item_child, field = parse_node(child, parent=item_name)
+            fields.extend(field)
+            item_index += 1
+    node.parsed = True
+    node.clear()
+
+    node.insert(0, "{% for item in "+collection+" %}")
+    node.insert(1, item_template)
+    node.insert(2, "{% endfor %}")
+    return fields
+
+def reroute_static(node, user, sitename):
+    if 'src' in s.attrs and s['src'].startswith('static'):
+        without_static = os.path.sep.join(s['src'].split(os.path.sep)[1:])
+        filename = os.path.join(user, sitename, without_static)
+        s['src'] = "{{ url_for('static', filename='%s') }}" % filename
+    elif 'href' in s.attrs and s['href'].startswith('static'):
+        without_static = os.path.sep.join(s['href'].split(os.path.sep)[1:])
+        filename = os.path.join(user, sitename, without_static)
+        s['href'] = "{{ url_for('static', filename='%s') }}" % filename
+
+
+def parse_simple(node, user, sitename, parent=None):
+    if not node.is_parsed:
+        field = {'fieldname': node.attrs['data-fieldname'],
+           'type': node.attrs.get('data-type', 'html'),
+           'value': node.get_text(),
+           'parent': parent}
+        node.clear()
+        node.insert(0, '{{ ' + node.attrs['data-fieldname'] + ' }}')
+        node.is_parsed = True
+        reroute_static(node, user, sitename)
+        return [field]
+    else:
+        return []
+
+def parse_node(head, user, sitename, parent=None):
+    fields = []
+    for node in head.find_all(True):
+        if data(node, "fieldname"):
+            if data(node, "type") == "collection":
+                f = parse_collection(node, parent)
+            else: # Simple field
+                f = parse_simple(node, parent)
+            fields.extend(f)
+    return head, fields
+
 def parse_html(html_doc, user, sitename):
     """ return the template and a list of dictionaries with the
         containing all information we have to add to the database
     """
-    for_db = []
     soup = BeautifulSoup(html_doc)
-    for s in soup.find_all(True):
-        if 'data-fieldname' in s.attrs:
-            tmp = {'fieldname': s.attrs['data-fieldname'],
-                   'type': s.attrs.get('data-type', 'html'),
-                   'value': s.get_text()}
-            for_db.append(tmp)
-            s.clear()
-            s.insert(0, '{{ ' + s.attrs['data-fieldname'] + ' }}')
-        if 'src' in s.attrs and s['src'].startswith('static'):
-            without_static = os.path.sep.join(s['src'].split(os.path.sep)[1:])
-            filename = os.path.join(user, sitename, without_static)
-            s['src'] = "{{ url_for('static', filename='%s') }}" % filename
-        elif 'href' in s.attrs and s['href'].startswith('static'):
-            without_static = os.path.sep.join(s['href'].split(os.path.sep)[1:])
-            filename = os.path.join(user, sitename, without_static)
-            s['href'] = "{{ url_for('static', filename='%s') }}" % filename
-
-
-    return soup, for_db
+    return parse_node(soup, user, sitename)
 
 
 if __name__ == '__main__':
