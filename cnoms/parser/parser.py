@@ -14,7 +14,6 @@ def data(node, attr, default=None):
         return node.attrs.get("data-"+attr, default)
 
 def parse_collection(node, parent=None):
-    print "PARSING COLLECTION"
     collection = node.attrs['data-fieldname']
     fields = [{"fieldname": collection, 'type': "collection", "parent": parent}]
     item_template = None
@@ -29,23 +28,29 @@ def parse_collection(node, parent=None):
                 "parent": collection,
                 "type": "item"
             })
-            rep, f = parse_node(child, parent=item_name)
+            item_child, field = parse_node(child, parent=item_name)
+            fields.extend(field)
             item_index += 1
+    node.parsed = True
     node.clear()
+
     node.insert(0, "{% for item in "+collection+" %}")
     node.insert(1, item_template)
     node.insert(2, "{% endfor %}")
     return fields
 
 def parse_simple(node, parent=None):
-    field = {'fieldname': node.attrs['data-fieldname'],
-       'type': node.attrs.get('data-type', 'html'),
-       'value': node.get_text(),
-       'parent': parent}
-    node.clear()
-    node.insert(0, '{{ ' + node.attrs['data-fieldname'] + ' }}')
-    print "returning", field
-    return [field]
+    if not node.is_parsed:
+        field = {'fieldname': node.attrs['data-fieldname'],
+           'type': node.attrs.get('data-type', 'html'),
+           'value': node.get_text(),
+           'parent': parent}
+        node.clear()
+        node.insert(0, '{{ ' + node.attrs['data-fieldname'] + ' }}')
+        node.is_parsed = True
+        return [field]
+    else:
+        return []
 
 def parse_node(head, parent=None):
     fields = []

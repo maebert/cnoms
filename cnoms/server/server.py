@@ -50,17 +50,17 @@ def import_website(path_to_site, user):
     new_templates_path = os.path.join(path, '..', 'templates', user, sitename)
     if not os.path.exists(new_templates_path):
         os.makedirs(new_templates_path)
-    for html_file in glob.glob(os.path.join(path_to_site, '*.html')):
-        template, for_db = parse_html(open(html_file).read())
-        save_path = os.path.join(new_templates_path, os.path.basename(html_file))
-        with open(save_path, 'w') as f:
-            f.write(str(template))
+    print os.path.join(path_to_site, '*.html')
 
-        for db_entry in for_db:
-            Entry.create(user=user,
-                         site=sitename,
-                         fieldname=db_entry['fieldname'],
-                         fieldtype=db_entry['type'],
-                         value=db_entry['value'],
-                         parent=db_entry.get('parent', None))
+    db_fields = []
+    for filename in os.listdir(path_to_site):
+        if any([filename.endswith(ext) for ext in app.config['HTML_EXT']]):
+            template, for_db = parse_html(open(os.path.join(path_to_site, filename)).read())
+            db_fields.extend(for_db)
+            save_path = os.path.join(new_templates_path, os.path.basename(filename))
+            with open(save_path, 'w') as f:
+                f.write(str(template))
+    print db_fields
+    for db_entry in db_fields:
+        Entry.create(user=user, site=sitename, **db_entry)
 
