@@ -119,8 +119,8 @@ def import_website(user=None, path_to_site=None):
     path = os.path.dirname(__file__)
     sitename = os.path.basename(os.path.normpath(path_to_site))
     new_static_path = os.path.join(path, '..', 'static', user, sitename)
-    if os.path.exists(os.path.join(path, '..', 'static', user)):
-        shutil.rmtree(os.path.join(path, '..', 'static', user))
+    if os.path.exists(new_static_path):
+        shutil.rmtree(new_static_path)
     if os.path.exists(os.path.join(path_to_site, 'static')):
         shutil.copytree(os.path.join(path_to_site, 'static'),
                         new_static_path)
