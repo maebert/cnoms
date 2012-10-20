@@ -12,7 +12,4 @@ def create_app(local=True):
     config_obj = config.Local if local else config.Base
     app.config.from_object(config_obj)
     db = Database(app)
-
-    app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon.ico'))
-
     return app

@@ -12,6 +12,10 @@ from flask import Response, render_template_string, request, render_template
 from datetime import datetime
 from collections import defaultdict
 
+@app.route("/favicon.ico")
+def favicon():
+    return app.send_static_file("favicon.ico")
+
 @app.route('/<user>/<site>/__admin')
 def show_site_admin(user, site):
     """admin view for a site"""
