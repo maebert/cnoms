@@ -18,7 +18,6 @@ def parse_single(filename):
     from cnoms.parser import parser
     with open(filename) as html:
         template, for_db = parser.parse_html(html.read())
-        print template
         print for_db
 
 if __name__ == "__main__":
@@ -27,13 +26,12 @@ if __name__ == "__main__":
 
     if "init" in sys.argv:
         init(app)
-    if "parse" in sys.argv:
+    elif "parse" in sys.argv:
         parse_single(sys.argv[2])
-    if "import" in sys.argv:
+    elif "import" in sys.argv:
         from cnoms.server.server import import_website
         from cnoms.models import Entry
         Entry.create_table(fail_silently=True)
-        import_website('tests/test_website1', "dedan")
-
+        import_website(sys.argv[2], "localuser")
     else:
         app.run(host=app.config['HOST'], port=app.config['PORT'])

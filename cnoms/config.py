@@ -11,6 +11,7 @@ class Base:
     }
     HOST = '0.0.0.0'
     PORT = 5000
+    HTML_EXT = (".htm", ".html")
 
 class Local(Base):
     HOST = 'localhost'
