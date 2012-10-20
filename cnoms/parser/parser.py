@@ -59,7 +59,6 @@ def parse_simple(node, user, sitename, parent=None):
         node.clear()
         node.insert(0, '{{ ' + node.attrs['data-fieldname'] + ' }}')
         node.is_parsed = True
-        reroute_static(node, user, sitename)
         return [field]
     else:
         return []
@@ -73,6 +72,7 @@ def parse_node(head, user, sitename, parent=None):
             else: # Simple field
                 f = parse_simple(node, user, sitename, parent)
             fields.extend(f)
+        reroute_static(node, user, sitename)
     return head, fields
 
 def parse_html(html_doc, user, sitename):
