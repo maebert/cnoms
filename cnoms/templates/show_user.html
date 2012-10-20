@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title>user</title>
+</head>
+<body>
+	<h1>Hello {{ user }}</h1>
+
+	{% for site in sites_ %}
+		<a href="{{ url_for('show_site_admin', user=user, site=site)}}">{{site}}</a>
+	{% endfor %}
+</body>
+</html>

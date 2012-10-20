@@ -4,13 +4,46 @@
     the actual flask app
 """
 import os, glob, json
-import os, glob
 from flask import Response
 from cnoms.models import Entry
 from cnoms.parser.parser import parse_html
 from cnoms import app
-from flask import Response, render_template_string, request
+from flask import Response, render_template_string, request, render_template
 from datetime import datetime
+from collections import defaultdict
+
+@app.route('/<user>/<site>/__admin')
+def show_site_admin(user, site):
+    """admin view for a site"""
+
+    # get all templates
+    templates_path = app.jinja_loader.searchpath[0]
+    templates = glob.glob(os.path.join(templates_path, user, site, '*.html'))
+    templates = [os.path.basename(t) for t in templates]
+
+    # get all fieldnames
+    fields = []
+    entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.desc())
+    for entry in entries:
+        d = {'type': entry.type, 'fieldname': entry.fieldname, 'value': entry.value}
+        if not d in fields:
+            fields.append(d)
+    return json.dumps({"templates": templates, "fields": fields})
+
+#/<username>: For each site of the user: Name, Preview image. HTML: each site links to following:
+@app.route('/<user>')
+def show_user(user):
+    """show all information for a user"""
+    entries = Entry.select().where(Entry.user==user)
+    sites_ = []
+    for entry in entries:
+        if not entry.site in sites_:
+            sites_.append(entry.site)
+            print 'append'
+    print sites_
+
+    return render_template('show_user.html', sites_=sites_, user=user)
+
 
 @app.route('/<user>/<site>/change_entry', methods=['POST'])
 def change_entry(user, site):
@@ -63,7 +96,7 @@ def show_template(user, site, template=None, edit=False):
         template = 'index.html'
     current_template_path = os.path.join(templates_path, user, site, template)
     if not os.path.exists(current_template_path):
-        return Response(status_code=404)
+        return 'Response(status_code=404)', 404
     template_string = open(current_template_path).read()
     return render_template_string(template_string, __user=user, __site=site, cnoms_edit=edit, **data)
 
