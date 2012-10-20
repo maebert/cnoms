@@ -113,7 +113,7 @@ body.overview {
     z-index:100;
     position:relative;
     left: 30px;
-    bottom: 20px;
+    bottom: 1px;
 }
 
 /* Buttons */
