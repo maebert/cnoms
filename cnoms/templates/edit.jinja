@@ -3,10 +3,15 @@
 <script src="{{ url_for('static', filename='__/js/redactor.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='__/js/redactor.css') }}" />
 <link rel="stylesheet" href="{{ url_for('static', filename='__/css/global.css') }}" />
+<div id="slider">
+</div>
+
 <script type="text/javascript">
 
 
 !function ($) {
+
+
 
   $.fn.cnoms_collection = function (option) {
     return this.each(function () {
@@ -104,6 +109,19 @@
 $(document).ready(function(){
     $("*[data-fieldname]:not([data-type=collection], [data-type=item])").cnoms();
     $("*[data-type=collection]").cnoms_collection();
+
+    $.getJSON("http://localhost:5000/data/{{ __user }}/{{ __site }}", function (result) {
+            var slider = $("<input>", {type: "range", min: 1, max: result.length, step:1, value: result.length}).bind('change', function() {
+                for (var now = result.length -1; now>=result.length - this.value; now--) {
+                    state = result[now]
+                    for (var field in state) {
+                        $("[data-fieldname="+field+"]:not([data-parent], [data-type=item], [data-type=collection])").text(state[field]);
+                    }
+                }
+            })
+            $("#slider").append(slider);
+        
+        });
 });
 
 </script>

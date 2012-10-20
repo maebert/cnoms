@@ -4,7 +4,24 @@ body.overview {
     padding: 1px;
     margin: 0px;
 }
-
+#slider {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background: url(../bin/background.png) top left repeat #333;
+    box-shadow: inset 0px 20px 40px -5px rgba(0,0,0,.2);
+    
+}
+#slider input {
+    width: 80%;
+    display: block;
+    margin: 5px auto;
+    box-sizing: boder-box;
+    -webkit-appearance: none;
+    -webkit-border-radius: 5px;
+    background-color: rgba(255,255,255,.2);
+}
 #sites {
     margin: 50px;
 }
