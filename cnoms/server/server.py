@@ -53,6 +53,7 @@ def import_website(path_to_site, user):
     # shutil.rmtree(new_static_path)
     # shutil.rmtree(os.path.join(path, '..', 'static', user))
     # shutil.rmtree(os.path.join(path, '..', 'templates', user))
+    shutil.rmtree(os.path.join(path, '..', 'static', user))
     if os.path.exists(os.path.join(path_to_site, 'static')):
         shutil.copytree(os.path.join(path_to_site, 'static'),
                         new_static_path)
