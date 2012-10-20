@@ -38,13 +38,18 @@ def show_template(user, site, template, edit=False):
 def edit_page(user, site, template):
     return show_template(user, site, template, edit=True)
 
-def import_website(path_to_site, user):
+# TODO: restrict this function to work only localy
+@app.route('/import_website', methods=['POST'])
+def import_website():
     """import a website
 
         * create templates
         * add content to database
         * copy static files
     """
+    print 'import_website'
+    path_to_site = request.args['path_to_site']
+    user = request.args['user']
     # copy static files
     path = os.path.dirname(__file__)
     sitename = os.path.basename(os.path.normpath(path_to_site))
@@ -81,4 +86,4 @@ def import_website(path_to_site, user):
                                      Entry.fieldname==db_entry['fieldname']).count()
         if count == 0:
             Entry.create(user=user, site=sitename, **db_entry)
-
+    return ''

@@ -3,6 +3,9 @@
 
 import sys
 import cnoms
+import watchdog
+import time
+from watchdog.observers import Observer
 
 def init(app):
     from cnoms import models
@@ -33,6 +36,20 @@ if __name__ == "__main__":
         from cnoms.models import Entry
         Entry.create_table(fail_silently=True)
         import_website(sys.argv[2], "localuser")
+    elif "watch" in sys.argv:
+        from cnoms.server.server import import_website
+        from cnoms.utils import WatchChanges
+        # start the file system observer
+        event_handler = WatchChanges(sys.argv[2])
+        observer = Observer()
+        observer.schedule(event_handler, path=sys.argv[2], recursive=True)
+        observer.start()
+
+        # start the app and make the observer wait for it
+        import cnoms.server.server
+        app.run(host=app.config['HOST'], port=app.config['PORT'])
+        observer.join()
+
     else:
         import cnoms.server.server
         app.run(host=app.config['HOST'], port=app.config['PORT'])

@@ -33,3 +33,4 @@ cnoms/static
 
 # database
 *.db
+scratch.py
