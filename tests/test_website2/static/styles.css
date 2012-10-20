@@ -155,7 +155,7 @@ article{
 }
 
 figure{
-	border:3px solid #142830;
+	border:3px solid #fff;
 	float:right;
 	height:300px;
 	margin-left:15px;
@@ -173,6 +173,21 @@ figure img{
 	margin-left:-60px;
 }
 
+blockquote{
+    background: #ECECEC;
+	border:3px solid #fff;
+	float:right;
+	overflow:hidden;
+    color: #3A525C; 
+    margin: 0em 2em; 
+    padding: 1.5em; 
+    position: relative;
+
+    font-family: georgia, 'times new roman', times, serif;
+	font-size:1.2em;
+	font-weight: medium;
+}
+
 more {
     	margin-bottom:30px;
 	text-align:center;
@@ -186,10 +201,6 @@ more a,more a:visited{
 	padding:2px 4px;
 	z-index:100;
 	position:relative;
-	float:right;
-}
-
-footer a.seemore{
 	float:right;
 }
 
