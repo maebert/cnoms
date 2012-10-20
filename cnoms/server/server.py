@@ -44,7 +44,7 @@ def edit_page(user, site, template):
 
 # TODO: restrict this function to work only localy
 @app.route('/import_website', methods=['POST'])
-def import_website():
+def import_website(user=None, path_to_site=None):
     """import a website
 
         * create templates
@@ -52,8 +52,9 @@ def import_website():
         * copy static files
     """
     print 'import_website'
-    path_to_site = request.args['path_to_site']
-    user = request.args['user']
+    if not (user and path_to_site):
+        path_to_site = request.args['path_to_site']
+        user = request.args['user']
     # copy static files
     path = os.path.dirname(__file__)
     sitename = os.path.basename(os.path.normpath(path_to_site))
