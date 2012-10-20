@@ -1,1 +1,11 @@
-EDIT MODE
+<script type="text/javascript">
+    $("*[data-fieldname]").each(function() {
+        var tools = $("<div>");
+        var edit = $("<button>", {class: "edit_btn", text:"Edit"});
+        var save = $("<button>", {class: "save_btn", text:"Save"});
+        var cancel = $("<button>", {class: "button_btn", text:"Cancel"});
+        tools.append(edit, save, cancel);
+        console.log(tools)
+        tools.insertAfter(this)
+    })
+</script>

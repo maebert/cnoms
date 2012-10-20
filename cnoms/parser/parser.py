@@ -77,7 +77,7 @@ def parse_node(head, user, sitename, parent=None):
 
 def insert_edit_fields(html):
     body = html.find("body")
-    body.insert(-1, "{% if cnoms_edit %}{% include '/edit.jinja' %}{% endif %}")
+    body.insert(-1, "{% if cnoms_edit %}{% include '/edit.jinja' %}{% else %}{% include '/edit_link.jinja' %}{% endif %}")
 
 def parse_html(html_doc, user, sitename):
     """ return the template and a list of dictionaries with the
