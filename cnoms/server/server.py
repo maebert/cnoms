@@ -15,9 +15,8 @@ import shutil
 @app.route('/<user>/<site>/<template>')
 def show_template(user, site, template):
     """render a template with the latest content for an entry"""
-    entries = Entry.select().where(Entry.user==user, Entry.site==site).execute()
-    # entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(('created', 'desc')).execute()
-    entries = [e for e in entries]
+
+    entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.desc())
     latest_entries = []
     seen_entries = []
     for e in entries:
@@ -26,7 +25,8 @@ def show_template(user, site, template):
             seen_entries.append(e.unique_id)
     templates_path = app.jinja_loader.searchpath[0]
     template_string = open(os.path.join(templates_path, user, site, template)).read()
-    return render_template_string(template_string, entries=entries)
+    data = {entry.fieldname: entry.value for entry in latest_entries}
+    return render_template_string(template_string, **data)
 
 def import_website(path_to_site, user):
     """import a website
