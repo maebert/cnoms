@@ -32,7 +32,7 @@ def parse_collection(node, user, sitename, parent=None):
                 item_template = child
             item_name = child.attrs.get('data-fieldname', "{}_{}".format(collection, item_index))
             add_data(child, "parent", collection)
-            add_data(child, "fieldname", "{{ item.fieldname }}")
+            add_data(child, "fieldname", "{{ item.__name }}")
             fields.append({
                 "fieldname": item_name,
                 "parent": collection,
