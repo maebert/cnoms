@@ -32,7 +32,7 @@ def show_template(user, site, template, edit=False):
     templates_path = app.jinja_loader.searchpath[0]
     template_string = open(os.path.join(templates_path, user, site, template)).read()
     data = {entry.fieldname: entry.value for entry in latest_entries}
-    return render_template_string(template_string, cnoms_edit=edit, **data)
+    return render_template_string(template_string, __user=user, __site=site, cnoms_edit=edit, **data)
 
 @app.route('/<user>/<site>/<template>/edit')
 def edit_page(user, site, template):

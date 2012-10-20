@@ -1,11 +1,49 @@
+<script src="{{ url_for('static', filename='__/js/jquery-1.8.2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='__/js/redactor.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='__/js/redactor.css') }}" />
 <script type="text/javascript">
+$(document).ready(function(){
     $("*[data-fieldname]").each(function() {
+        var that = this;
         var tools = $("<div>");
-        var edit = $("<button>", {class: "edit_btn", text:"Edit"});
+        var edit = $("<button>", {class: "edit_btn", text:"Edit"})
         var save = $("<button>", {class: "save_btn", text:"Save"});
         var cancel = $("<button>", {class: "button_btn", text:"Cancel"});
+
+        var show_tools = function() {
+            $(edit).hide();
+            $(save).show();
+            $(cancel).show();
+        };
+        var hide_tools = function() {
+            $(edit).show();
+            $(save).hide();
+            $(cancel).hide();
+        }        
+        var original = null;
+        edit.bind('click', function() {
+            $(that).redactor({air: true}); 
+            original = $(that).getCode();
+            show_tools();
+        });
+        cancel.bind('click', function() {
+            $(that).destroyEditor();
+            $(that).text(original);
+            hide_tools();
+        });
+        save.bind('click', function() {
+            console.log('/{{ __user }}/{{ __site }}/change_entry')
+            $.post('/{{ __user }}/{{ __site }}/change_entry', {
+                'fieldname': $(that).data('fieldname'),
+                'type': $(that).data('type'),
+                'value': $(that).getCode()
+            });
+        })
+
         tools.append(edit, save, cancel);
         console.log(tools)
-        tools.insertAfter(this)
-    })
+        tools.insertAfter(this);
+        hide_tools();
+    });
+});
 </script>
