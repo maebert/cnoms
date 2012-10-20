@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- The new doctype -->
+<html>
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <title>
+   An Arc on the Blogosphere | CNoMS demo
+  </title>
+  <link href="{{ url_for('static', filename='localuser/test_website2/styles.css') }}" rel="stylesheet" type="text/css"/>
+  <!-- Internet Explorer HTML5 enabling code: -->
+  <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+
+        <style type="text/css">
+        .clear {
+          zoom: 1;
+          display: block;
+        }
+        </style>
+
+
+        <![endif]-->
+ </head>
+ <body>
+  <section id="page">
+   <!-- Defining the #page section with the section tag -->
+   <header>
+    <!-- Defining the header section of the page with the appropriate tag -->
+    <hgroup>
+     <h1 data-fieldname="header">
+      {{ header }}
+     </h1>
+     <h3 data-fieldname="subheader">
+      {{ subheader }}
+     </h3>
+    </hgroup>
+    <nav class="clear">
+     <!-- The nav link semantically marks your main site navigation -->
+     <ul data-fieldname="nav_entries">
+      {{ nav_entries }}
+     </ul>
+    </nav>
+   </header>
+   <section data-fieldname="blog" data-type="collection" id="articles">
+    {% for item in blog %}
+    <article data-fieldname="{{ item.fieldname }}" data-parent="blog" data-type="item" id="article1">
+     <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+     <h2 data-fieldname="entry_title" data-parent="{{ item.parent }}">
+      {{ item.entry_title }}
+     </h2>
+     <div class="line">
+     </div>
+     <div class="articleBody clear" data-fieldname="entry_body" data-parent="{{ item.parent }}">
+      {{ item.entry_body }}
+     </div>
+    </article>
+    {% endfor %}
+   </section>
+   <footer>
+    <!-- Marking the footer section -->
+    <div class="line">
+    </div>
+    <p>
+     You've Reached the Terminus.  |  Copyright 2012 - CNoMS
+    </p>
+    <!-- Change the copyright notice -->
+    <a class="up" href="#">
+     Go UP
+    </a>
+   </footer>
+  </section>
+  <!-- Closing the #page section -->
+  <!-- JavaScript Includes -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js">
+  </script>
+  <script src="{{ url_for('static', filename='localuser/test_website2/jquery.scrollTo-1.4.2/jquery.scrollTo-min.js') }}">
+  </script>
+  <script src="{{ url_for('static', filename='localuser/test_website2/script.js') }}">
+  </script>
+  {% if cnoms_edit %}{% include '/edit.jinja' %}{% else %}{% include '/edit_link.jinja' %}{% endif %}
+ </body>
+</html>

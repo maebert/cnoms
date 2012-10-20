@@ -17,6 +17,39 @@ body.overview {
     -webkit-transition: all .5s ease;
 }
 
+#popup {
+    width: 400px;
+    border-radius: 5px;
+    padding: 20px 40px 40px 40px;
+    position: absolute;
+    left: 50%;
+    margin-left: -200px;
+    top: 200px;
+    background: url(../bin/modal.png) top left repeat #eee;
+    box-shadow: 0px 5px 10px 5px rgba(0,0,0,.2), inset 0px 60px 60px rgba(255,255,255,.4);
+    -webkit-transition: top .6s ease;
+}
+#popup.up {
+    top: -200px;
+}
+
+#popup h3 {
+    font-family: Junction, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    letter-spacing: 200%;
+    color: #555;
+    font-weight: normal;
+    text-shadow: 0px 1px 0px white;
+}
+
+#popup input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-family: Junction, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+
 #sites .site .logo {
     background: #6a9ed7;
     width: 196px;
@@ -24,8 +57,30 @@ body.overview {
     border-radius: 5px;
     box-shadow: 0px 5px 10px 5px rgba(0,0,0,.2), inset 0px 60px 60px rgba(255,255,255,.4), inset 0px 0px 0px 98px rgba(255,255,255,0);;
     -webkit-transition: all .5s ease;
+    cursor: pointer;
+}
+#content {
+    -webkit-transform: all .5 ease;
+}
+#content.background {
+    -webkit-filter: grayscale(0.5) blur(10px);
 }
 
+#sites .site.add .logo {
+    background: url(../bin/add.png) top left no-repeat transparent;
+    opacity: .6;
+    box-shadow: none;
+}
+#sites .site.add .name {
+    color: #777;
+    text-shadow: 0px -1px 0px black;
+}
+#sites .site.add:hover .logo {
+    background: url(../bin/add.png) top left no-repeat transparent;
+    opacity: 1;
+    box-shadow: none;
+    -webkit-transform: none;
+}
 #sites .site .name {
     text-align: center;
     font-family: Junction, "Helvetica Neue", Helvetica, Arial, sans-serif;
