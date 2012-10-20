@@ -79,8 +79,8 @@ def show_template(user, site, template=None, edit=False):
             if e.type == "collection":
                 collections[e.fieldname] = []
             elif e.type == "item":
-                collections.get(e.parent, {}).append(e.fieldname)
-                items[e.fieldname] = {}
+                collections.get(e.parent, []).append(e.fieldname)
+                items[e.fieldname] = {"__parent": e.parent, "__name": e.fieldname}
             elif e.parent:
                 items.get(e.parent, {})[e.fieldname] = e.value
             else:

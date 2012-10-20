@@ -17,6 +17,10 @@ def data(node, attr, default=None):
     if hasattr(node, "attrs"):
         return node.attrs.get("data-"+attr, default)
 
+def add_data(node, key, value):
+    if "data-"+key not in node.attrs:
+        node.attrs["data-"+key] = value
+
 def parse_collection(node, user, sitename, parent=None):
     collection = node.attrs['data-fieldname']
     fields = [{"fieldname": collection, 'type': "collection", "parent": parent}]
@@ -27,6 +31,8 @@ def parse_collection(node, user, sitename, parent=None):
             if not item_template:
                 item_template = child
             item_name = child.attrs.get('data-fieldname', "{}_{}".format(collection, item_index))
+            add_data(child, "parent", collection)
+            add_data(child, "fieldname", "{{ item.fieldname }}")
             fields.append({
                 "fieldname": item_name,
                 "parent": collection,
@@ -63,6 +69,8 @@ def parse_simple(node, user, sitename, parent=None):
         node.clear()
         parent_string = "item." if parent else ""
         node.insert(0, '{{ ' + parent_string + node.attrs['data-fieldname'] + ' }}')
+        if parent:
+            add_data(node, "parent", "{{ item.parent }}")
         node.is_parsed = True
         return [field]
     else:
@@ -74,7 +82,7 @@ def parse_node(head, user, sitename, parent=None):
         if data(node, "fieldname"):
             if data(node, "type") == "collection":
                 f = parse_collection(node, user, sitename, parent)
-            else: # Simple field
+            elif data(node, "type") != "item": # Simple field
                 f = parse_simple(node, user, sitename, parent)
             fields.extend(f)
         reroute_static(node, user, sitename)
@@ -92,7 +100,7 @@ def parse_html(html_doc, user, sitename):
     template, fields = parse_node(soup, user, sitename)
     insert_edit_fields(template)
     print template
-    return template, fields
+    return template.prettify(formatter=None), fields
 
 # TODO: restrict this function to work only localy
 @app.route('/import_website', methods=['POST'])

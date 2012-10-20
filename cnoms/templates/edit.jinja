@@ -2,11 +2,42 @@
 <script src="{{ url_for('static', filename='__/js/redactor.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='__/js/redactor.css') }}" />
 <script type="text/javascript">
-$(document).ready(function(){
-    var simple_fields = $("*[data-fieldname]:not([data-type=collection], [data-type=item])");
-    simple_fields.each(function() {
+
+
+!function ($) {
+
+  $.fn.cnoms_collection = function (option) {
+    return this.each(function () {
+        var $template = $($(this).find("[data-type=item]").first())
+        
+        var tools = $("<div>", {'class': "tools"});
+        var new_btn = $("<button>", {class: "new_btn", text:"Add..."}).bind('click', function() {
+            var $clone = $template.clone(true)
+            $clone.insertBefore(this);
+            var old_name = $template.data('fieldname');
+            var new_name = $clone.data('parent') + "_" + Math.floor(Math.random()*255).toString(16) + Math.floor(Math.random()*255).toString(16) + Math.floor(Math.random()*255).toString(16);
+            $clone.attr("data-fieldname", new_name)
+            $clone.find(".tools").remove();
+            $clone.find("[data-parent]").each(function() {
+                if ($(this).data('parent') == old_name) {
+                    $(this).text("New "+$(this).data('fieldname'))
+                    $(this).attr('data-parent', new_name);
+                }
+            });
+            $.post('/{{ __user }}/{{ __site }}/change_entry', {
+                'fieldname': $clone.data('fieldname'),
+                'parent': $clone.data('parent'),
+                'type': "item"
+            });
+            $clone.find("*[data-fieldname]:not([data-type=collection], [data-type=item])").cnoms();
+        }).appendTo(this)
+    });
+  }
+
+  $.fn.cnoms = function (option) {
+    return this.each(function () {
         var that = this;
-        var tools = $("<div>");
+        var tools = $("<div>", {'class': "tools"});
         var edit = $("<button>", {class: "edit_btn", text:"Edit"})
         var save = $("<button>", {class: "save_btn", text:"Save"});
         var cancel = $("<button>", {class: "button_btn", text:"Cancel"});
@@ -33,10 +64,9 @@ $(document).ready(function(){
             hide_tools();
         });
         save.bind('click', function() {
-            console.log('/{{ __user }}/{{ __site }}/change_entry')
             $.post('/{{ __user }}/{{ __site }}/change_entry', {
                 'fieldname': $(that).data('fieldname'),
-                'parent': $(that).data('parent'),
+                'parent': $(that).attr('data-parent'),
                 'type': $(that).data('type'),
                 'value': $(that).getCode()
             });
@@ -45,9 +75,15 @@ $(document).ready(function(){
         })
 
         tools.append(edit, save, cancel);
-        console.log(tools)
         tools.insertAfter(this);
         hide_tools();
     });
+  }
+}(window.jQuery);
+
+$(document).ready(function(){
+    $("*[data-fieldname]:not([data-type=collection], [data-type=item])").cnoms();
+    $("*[data-type=collection]").cnoms_collection();
 });
+
 </script>
