@@ -56,7 +56,7 @@ def import_website(path_to_site, user):
     db_fields = []
     for filename in os.listdir(path_to_site):
         if any([filename.endswith(ext) for ext in app.config['HTML_EXT']]):
-            template, for_db = parse_html(open(os.path.join(path_to_site, filename)).read())
+            template, for_db = parse_html(open(os.path.join(path_to_site, filename)).read(), user, sitename)
             db_fields.extend(for_db)
             save_path = os.path.join(new_templates_path, os.path.basename(filename))
             with open(save_path, 'w') as f:

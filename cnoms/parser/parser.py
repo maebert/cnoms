@@ -40,14 +40,14 @@ def parse_collection(node, user, sitename, parent=None):
     return fields
 
 def reroute_static(node, user, sitename):
-    if 'src' in s.attrs and s['src'].startswith('static'):
-        without_static = os.path.sep.join(s['src'].split(os.path.sep)[1:])
+    if 'src' in node.attrs and node['src'].startswith('static'):
+        without_static = os.path.sep.join(node['src'].split(os.path.sep)[1:])
         filename = os.path.join(user, sitename, without_static)
-        s['src'] = "{{ url_for('static', filename='%s') }}" % filename
-    elif 'href' in s.attrs and s['href'].startswith('static'):
-        without_static = os.path.sep.join(s['href'].split(os.path.sep)[1:])
+        node['src'] = "{{ url_for('static', filename='%s') }}" % filename
+    elif 'href' in node.attrs and node['href'].startswith('static'):
+        without_static = os.path.sep.join(node['href'].split(os.path.sep)[1:])
         filename = os.path.join(user, sitename, without_static)
-        s['href'] = "{{ url_for('static', filename='%s') }}" % filename
+        node['href'] = "{{ url_for('static', filename='%s') }}" % filename
 
 
 def parse_simple(node, user, sitename, parent=None):
@@ -69,9 +69,9 @@ def parse_node(head, user, sitename, parent=None):
     for node in head.find_all(True):
         if data(node, "fieldname"):
             if data(node, "type") == "collection":
-                f = parse_collection(node, parent)
+                f = parse_collection(node, user, sitename, parent)
             else: # Simple field
-                f = parse_simple(node, parent)
+                f = parse_simple(node, user, sitename, parent)
             fields.extend(f)
     return head, fields
 
