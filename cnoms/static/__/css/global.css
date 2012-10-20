@@ -115,3 +115,46 @@ body.overview {
     left: 30px;
     bottom: 20px;
 }
+
+/* Buttons */
+
+/* editable content div */
+.editable {
+	background: #ececec;
+	position: relative;
+	left:20px;
+	top: -60px;
+	float: left;
+	-moz-box-shadow: 0px 0px 4px rgba(0,0,0,0.55);
+  -khtml-box-shadow: 0px 0px 4px rgba(0,0,0,0.55);
+  -webkit-box-shadow: 0px 0px 4px rgba(0,0,0,0.55);
+	z-index: 100; /* the stack order: foreground */
+    padding: 5px;
+}
+
+button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#9aafad;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+	border:1px solid #fff;
+	display:inline-block;
+	color:#000000;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:4px 8px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+}
+
+button:hover {
+	background-color:#c0cecd;
+}
+
+button:active {
+	position:relative;
+	top:1px;
