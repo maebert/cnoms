@@ -1,18 +1,18 @@
 <!DOCTYPE html> <!-- The new doctype -->
 <html>
     <head>
-    
+
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        
+
         <title> An Arc on the Blogosphere | CNoMS demo</title>
-        
+
         <link rel="stylesheet" type="text/css" href="static/styles.css" />
-        
+
         <!-- Internet Explorer HTML5 enabling code: -->
-        
+
         <!--[if IE]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        
+
         <style type="text/css">
         .clear {
           zoom: 1;
@@ -20,65 +20,65 @@
         }
         </style>
 
-        
+
         <![endif]-->
-        
+
     </head>
-    
+
     <body>
-    	
+
     	<section id="page"> <!-- Defining the #page section with the section tag -->
-    
+
             <header> <!-- Defining the header section of the page with the appropriate tag -->
-            
-                <hgroup data-fieldname="headergroup">
+
+                <hgroup>
                     <h1 data-fieldname="header">An Arc on the Blogosphere</h1>
                     <h3 data-fieldname="subheader">Abandons All Mess</h3>
                 </hgroup>
-                                
-                <nav class="clear" data-fieldname="navigation"> <!-- The nav link semantically marks your main site navigation -->
+
+                <nav class="clear"> <!-- The nav link semantically marks your main site navigation -->
                     <ul data-fieldname="nav_entries">
                         <li><a href="#article1">Menu</a></li>
                         <li><a href="#article2">True Menü</a></li>
                     </ul>
                 </nav>
-            
+
             </header>
-            
-            <section id="articles"> <!-- A new section with the articles -->
+
+            <section id="articles" data-fieldname="blog" data-type="collection"> <!-- A new section with the articles -->
 
 				<!-- Article 1 start -->
-                
-                <article data-fieldname="blog" data-type="collection" id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+
+                <article data-type="item" id="article1"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
                     <h2 data-fieldname="entry_title">It Shouldn't Suck to Edit This</h2>
-                    
+
                     <div class="line"></div>
-                    
+
                     <div data-fieldname="entry_body" class="articleBody clear">
-                    
+
                     	<figure> <!-- The figure tag marks data (usually an image) that is part of the article -->
 	                    	<a href=""><img src="static/happiness.jpeg" width="590" height="340" /></a>
                         </figure>
-                        
+
                         <p>You should feel the simple joy of throwing flower petals in the wind whilst editing your webpage. Helvetica vice butcher pop-up, iphone art party truffaut synth jean shorts sartorial typewriter occupy fingerstache. Gluten-free bespoke vegan dreamcatcher locavore, lomo yr williamsburg fanny pack kogi pour-over butcher.</p>
                         <p>Chambray next level irony, street art sriracha jean shorts cray mumblecore vinyl brooklyn artisan. Austin kogi farm-to-table mcsweeney's pour-over retro. Farm-to-table mustache cardigan, vegan banksy iphone ethnic authentic williamsburg viral scenester jean shorts blog selvage. Carles dreamcatcher occupy, gastropub wolf typewriter kale chips ethnic. Farm-to-table before they sold out cosby sweater VHS marfa, gluten-free selvage locavore echo park. Locavore occupy pickled, viral fingerstache fap odd future mumblecore 8-bit trust fund. </p>
                         <more> <a href="index.html" class="seemore">more</a> </more>
                     </div>
                 </article>
-                
+
 				<!-- Article 1 end -->
 
 
 				<!-- Article 2 start -->
 
-                
-                <article id="article2">
+
+                <article data-type="item" id="article2">
                     <h2 data-fieldname="entry_title">The Second Girl I Ever Loved</h2>
-                    
+
                     <div class="line"></div>
-                    
+
                     <div data-fieldname="entry_body" class="articleBody clear">
-                        
+
                         <p>Try me again, just try me.</p>
                         <p>Kale chips craft beer narwhal, bespoke VHS sustainable scenester 8-bit fixie hella. Twee gentrify scenester mixtape photo booth, fap wes anderson cred whatever. 3 wolf moon bespoke mixtape typewriter cliche. Sriracha pinterest vegan artisan direct trade thundercats. Shoreditch single-origin coffee mixtape, locavore 8-bit gluten-free craft beer bicycle rights beard etsy raw denim narwhal pitchfork banksy. Ennui viral gluten-free readymade. Sustainable umami pinterest art party, brooklyn skateboard forage williamsburg organic.</p>
                         <p>Par Exemplar:</p>
@@ -88,7 +88,7 @@
                         <more> <a href="index.html" class="seemore">more</a> </more>
                     </div>
                 </article>
-                
+
 				<!-- Article 2 end -->
 
             </section>
@@ -96,18 +96,18 @@
         <footer> <!-- Marking the footer section -->
 
            <div class="line"></div>
-           
+
            <p>You've Reached the Terminus.  |  Copyright 2012 - CNoMS</p> <!-- Change the copyright notice -->
-           
+
            <a href="#" class="up">Go UP</a>
-           
+
 
         </footer>
-            
+
 		</section> <!-- Closing the #page section -->
-        
+
         <!-- JavaScript Includes -->
-        
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
         <script src="static/jquery.scrollTo-1.4.2/jquery.scrollTo-min.js"></script>
         <script src="static/script.js"></script>
