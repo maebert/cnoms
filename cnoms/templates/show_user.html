@@ -26,19 +26,36 @@
     </div>
 
     <script>
+    	var unpop = function() {
+                $("#content").removeClass("background");
+                $("#popup").hide();
+                $(this).unbind();
+            }
+
         $("#add").bind('click', function() {
             console.log("d")
             $("#popup").show().removeClass('up');
             $("#content").addClass("background")
             setTimeout(300, function() {
-            $("#content").bind('click', function() {
-                $("#content").removeClass("background");
-                $("#popup").hide();
-                $(this).unbind();
-            });
+            $("#content").bind('click', unpop);
         });
         });
 
+        $('#popup').bind('keydown', function(e) {
+        	if (e.keyCode == "27") {
+        		unpop()
+        	}
+        	if (e.keyCode == "13") {
+        		// $.post('/{{ __user }}/{{ __site }}/import_website', {
+          //       			'path_to_site': $('#path').val(),
+          //       			'user': {{ __user }}}
+          //       	   , function(data) {
+          //       	   		alert('received app')
+          //       	   }
+          //       	   );
+        		unpop()
+        	}
+        })
     </script>
 </body>
 </html>
