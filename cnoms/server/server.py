@@ -7,9 +7,15 @@ import os, glob
 from cnoms.models import Entry
 from cnoms.parser.parser import parse_html
 from cnoms import app
-from flask import Response, render_template_string
+from flask import Response, render_template_string, request
 from datetime import datetime
 import shutil
+
+@app.route('/<user>/<site>/change_entry', methods=['POST'])
+def change_entry(user, site):
+    """receive entry changes via ajax call"""
+    Entry.create(user=user, site=site, **request.form)
+    return ''
 
 
 @app.route('/<user>/<site>/<template>')
