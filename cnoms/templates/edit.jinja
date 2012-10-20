@@ -4,6 +4,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $("*[data-fieldname]").each(function() {
+        if ($(this).date("type") == "collection" or $(this).date("type") == "item") return;
         var that = this;
         var tools = $("<div>");
         var edit = $("<button>", {class: "edit_btn", text:"Edit"})
@@ -35,6 +36,7 @@ $(document).ready(function(){
             console.log('/{{ __user }}/{{ __site }}/change_entry')
             $.post('/{{ __user }}/{{ __site }}/change_entry', {
                 'fieldname': $(that).data('fieldname'),
+                'parent': $(that).data('parent'),
                 'type': $(that).data('type'),
                 'value': $(that).getCode()
             });

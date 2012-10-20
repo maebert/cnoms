@@ -57,7 +57,8 @@ def parse_simple(node, user, sitename, parent=None):
            'value': node.get_text(),
            'parent': parent}
         node.clear()
-        node.insert(0, '{{ ' + node.attrs['data-fieldname'] + ' }}')
+        parent_string = "item." if parent else ""
+        node.insert(0, '{{ ' + parent_string + node.attrs['data-fieldname'] + ' }}')
         node.is_parsed = True
         return [field]
     else:
