@@ -3,8 +3,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='__/js/redactor.css') }}" />
 <script type="text/javascript">
 $(document).ready(function(){
-    $("*[data-fieldname]").each(function() {
-        if ($(this).date("type") == "collection" or $(this).date("type") == "item") return;
+    var simple_fields = $("*[data-fieldname]:not([data-type=collection], [data-type=item])");
+    simple_fields.each(function() {
         var that = this;
         var tools = $("<div>");
         var edit = $("<button>", {class: "edit_btn", text:"Edit"})
