@@ -100,7 +100,7 @@ def show_template(user, site, template=None, edit=False):
     if not os.path.exists(current_template_path):
         return 'Response(status_code=404)', 404
     template_string = open(current_template_path).read()
-    return render_template_string(template_string, __user=user, __site=site, cnoms_edit=edit, **data)
+    return render_template_string(template_string, __user=user, __site=site, __template=template, cnoms_edit=edit, **data)
 
 @app.route('/<user>/<site>/<template>/edit')
 def edit_page(user, site, template):
