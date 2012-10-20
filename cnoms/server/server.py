@@ -7,25 +7,26 @@ import os, glob
 from cnoms.models import Entry
 from cnoms.parser.parser import parse_html
 from cnoms import app
-from flask import Response, render_template
+from flask import Response, render_template_string
 from datetime import datetime
 import shutil
+
 
 @app.route('/<user>/<site>/<template>')
 def show_template(user, site, template):
     """render a template with the latest content for an entry"""
-    entries = Entry.select().where(user=user,
-                                   site=site).order_by(('created', 'desc')).execute()
+    entries = Entry.select().where(Entry.user==user, Entry.site==site).execute()
+    # entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(('created', 'desc')).execute()
     entries = [e for e in entries]
     latest_entries = []
     seen_entries = []
     for e in entries:
         if e.unique_id not in seen_entries:
             latest_entries.append(e)
-            entries_ips.append(f.unique_id)
+            seen_entries.append(e.unique_id)
     templates_path = app.jinja_loader.searchpath[0]
-    template_string = open(os.path.join(templates_path, template)).read()
-    return render_template_string(template_string, entries)
+    template_string = open(os.path.join(templates_path, user, site, template)).read()
+    return render_template_string(template_string, entries=entries)
 
 def import_website(path_to_site, user):
     """import a website
@@ -51,7 +52,7 @@ def import_website(path_to_site, user):
     if not os.path.exists(new_templates_path):
         os.makedirs(new_templates_path)
     for html_file in glob.glob(os.path.join(path_to_site, '*.html')):
-        template, for_db = parse_html(open(html_file).read())
+        template, for_db = parse_html(open(html_file).read(), user, sitename)
         save_path = os.path.join(new_templates_path, os.path.basename(html_file))
         with open(save_path, 'w') as f:
             f.write(str(template))

@@ -8,7 +8,7 @@ import sys, os
 from bs4 import BeautifulSoup
 import re
 
-def parse_html(html_doc):
+def parse_html(html_doc, user, sitename):
     """ return the template and a list of dictionaries with the
         containing all information we have to add to the database
     """
@@ -22,6 +22,16 @@ def parse_html(html_doc):
             for_db.append(tmp)
             s.clear()
             s.insert(0, '{{ ' + s.attrs['data-fieldname'] + ' }}')
+        if 'src' in s.attrs and s['src'].startswith('static'):
+            without_static = os.path.sep.join(s['src'].split(os.path.sep)[1:])
+            filename = os.path.join(user, sitename, without_static)
+            s['src'] = "{{ url_for('static', filename='%s') }}" % filename
+        elif 'href' in s.attrs and s['href'].startswith('static'):
+            without_static = os.path.sep.join(s['href'].split(os.path.sep)[1:])
+            filename = os.path.join(user, sitename, without_static)
+            s['href'] = "{{ url_for('static', filename='%s') }}" % filename
+
+
     return soup, for_db
 
 
