@@ -74,5 +74,11 @@ def import_website(path_to_site, user):
                 f.write(str(template))
     print db_fields
     for db_entry in db_fields:
-        Entry.create(user=user, site=sitename, **db_entry)
+        count = Entry.select().where(Entry.user==user,
+                                     Entry.site==sitename,
+                                     Entry.type==db_entry['type'],
+                                     Entry.value==db_entry['value'],
+                                     Entry.fieldname==db_entry['fieldname']).count()
+        if count == 0:
+            Entry.create(user=user, site=sitename, **db_entry)
 
