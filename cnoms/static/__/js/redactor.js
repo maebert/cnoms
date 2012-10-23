@@ -127,6 +127,7 @@ var RLANG = {
 		
 			cleanup: true,
 		
+		    toolbarExternal: true,
 			focus: false,
 			tabindex: false,
 			autoresize: true,
@@ -1031,7 +1032,10 @@ var RLANG = {
 			}
 			
 			$('.redactor_air').remove();
-			
+			if (this.opts.toolbarExternal)
+			{
+				$(this.opts.toolbarExternal).empty();
+			}
 			for (var i = 0; i < this.dropdowns.length; i++)
 			{
 				this.dropdowns[i].remove();
@@ -1594,10 +1598,16 @@ var RLANG = {
 		{
 			setInterval($.proxy(function()
 			{
+				console.log(this)
 				$.ajax({
 					url: this.opts.autosave,
 					type: 'post',
-					data: this.$el.attr('name') + '=' + this.getCode(),
+					data: {
+		                'fieldname': this.$editor.attr('data-fieldname'),
+		                'parent': this.$editor.attr('data-parent'),
+		                'type': this.$editor.attr('data-type'),
+                		'value': this.getCode()
+            		},
 					success: $.proxy(function(data)
 					{
 						// callback					
@@ -1627,6 +1637,14 @@ var RLANG = {
 			{
 				$(this.air).append(this.$toolbar);
 				$('body').prepend(this.air);
+			}
+			else if (this.opts.toolbarExternal) {
+				if ($(this.opts.toolbarExternal).find('.redactor_toolbar').length > 0)
+				{
+					return;
+				} else {
+					$(this.opts.toolbarExternal).append(this.$toolbar)
+				}
 			}
 			else
 			{
