@@ -3,7 +3,7 @@
 	border: 1px solid #ddd;
 }
 .redactor_box, .redactor_box textarea {
-	background-color: #fff;
+	
 }
 
 body .redactor_air {
@@ -33,10 +33,7 @@ body .redactor_air {
 	position: relative;
 	outline: none;
 	box-shadow: none !important;
-	padding: 15px !important;
 	margin: 0 !important;
-	background: none;	
-	background: #fff !important;
 	overflow: auto;
 	font-family: Arial, Helvetica, Verdana, Tahoma, sans-serif !important;      
 	font-size: 15px !important;
