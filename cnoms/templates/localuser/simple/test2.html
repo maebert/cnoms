@@ -1,0 +1,19 @@
+<html>
+ <head>
+  <title>
+   Test file (second page)
+  </title>
+  <script src="{{ url_for('static', filename='localuser/simple/js/jquery-1.8.2.min.js') }}">
+  </script>
+  <link href="{{ url_for('static', filename='localuser/simple/css/style.css') }}" rel="stylesheet"/>
+ </head>
+ <body>
+  <h1 data-fieldname="title_page2" data-type="plain">
+   {{ title_page2 }}
+  </h1>
+  <a href="index.html">
+   link to template index.html
+  </a>
+  {% if cnoms_edit %}{% include '/edit.jinja' %}{% else %}{% include '/edit_link.jinja' %}{% endif %}
+ </body>
+</html>

@@ -1,17 +1,85 @@
+<!DOCTYPE html> <!-- The new doctype -->
 <html>
-<head>
-    <title></title>
-</head>
-<body>
-    <div data-fieldname="blog" data-type="collection">
-        <div data-type="item">
-            <h1 data-fieldname="title">My first entry</h1>
-            <p data-fieldname="body">Blah</p>
-        </div>
-        <div data-type="item">
-            <h1 data-fieldname="title">My second entry</h1>
-            <p data-fieldname="body">Unicorns</p>
-        </div>
-    </div>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title> An Arc on the Blogosphere | CNoMS demo</title>
+        <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    </head>
+
+    <body>
+    	<section id="page">
+            <header>
+
+                <hgroup>
+                    <h1 data-fieldname="header">An Arc on the Blogosphere</h1>
+                    <h3 data-fieldname="subheader">Abandons All Mess</h3>
+                </hgroup>
+
+                <nav class="clear"> 
+                    <ul data-fieldname="nav_entries">
+                        <li><a href="#article1">Menu</a></li>
+                        <li><a href="#article2">True Menü</a></li>
+                    </ul>
+                </nav>
+
+            </header>
+
+            <section id="articles" data-fieldname="blog" data-type="collection">
+
+                <article data-type="item" id="article1">
+                    <h2 data-fieldname="entry_title">It Shouldn't Suck to Edit This</h2>
+                    <div class="line"></div>
+                    <div data-fieldname="entry_body" class="articleBody clear">
+
+                    	<figure> 
+	                    	<a href=""><img src="static/happiness.jpeg" width="590" height="340" /></a>
+                        </figure>
+
+                        <p>You should feel the simple joy of throwing flower petals in the wind whilst editing your webpage. Helvetica vice butcher pop-up, iphone art party truffaut synth jean shorts sartorial typewriter occupy fingerstache. Gluten-free bespoke vegan dreamcatcher locavore, lomo yr williamsburg fanny pack kogi pour-over butcher.</p>
+                        <p>Chambray next level irony, street art sriracha jean shorts cray mumblecore vinyl brooklyn artisan. Austin kogi farm-to-table mcsweeney's pour-over retro. Farm-to-table mustache cardigan, vegan banksy iphone ethnic authentic williamsburg viral scenester jean shorts blog selvage. Carles dreamcatcher occupy, gastropub wolf typewriter kale chips ethnic. Farm-to-table before they sold out cosby sweater VHS marfa, gluten-free selvage locavore echo park. Locavore occupy pickled, viral fingerstache fap odd future mumblecore 8-bit trust fund. </p>
+                        <more> <a href="index.html" class="seemore">more</a> </more>
+                    </div>
+                </article>
+
+                
+                <article data-type="item" id="article2">
+                    <h2 data-fieldname="entry_title">The Second Girl I Ever Loved</h2>
+
+                    <div class="line"></div>
+
+                    <div data-fieldname="entry_body" class="articleBody clear">
+
+                        <p>Try me again, just try me.</p>
+                        <p>Kale chips craft beer narwhal, bespoke VHS sustainable scenester 8-bit fixie hella. Twee gentrify scenester mixtape photo booth, fap wes anderson cred whatever. 3 wolf moon bespoke mixtape typewriter cliche. Sriracha pinterest vegan artisan direct trade thundercats. Shoreditch single-origin coffee mixtape, locavore 8-bit gluten-free craft beer bicycle rights beard etsy raw denim narwhal pitchfork banksy. Ennui viral gluten-free readymade. Sustainable umami pinterest art party, brooklyn skateboard forage williamsburg organic.</p>
+                        <p>Par Exemplar:</p>
+                        <blockquote class="quote">
+                            <p> Swag mustache 8-bit banh mi ennui flexitarian. PBR truffaut fingerstache, whatever sartorial synth pop-up ethical small batch bespoke farm-to-table authentic +1 ennui. Quinoa synth fixie, 8-bit pinterest umami tofu small batch marfa art party kogi messenger bag gluten-free kale chips. Fap occupy ethical blog freegan wes anderson gentrify.</p>
+                        </blockquote>
+                        <more> <a href="index.html" class="seemore">more</a> </more>
+                    </div>
+                </article>
+
+				<!-- Article 2 end -->
+
+            </section>
+
+        <footer> <!-- Marking the footer section -->
+
+           <div class="line"></div>
+
+           <p>You've Reached the Terminus.  |  Copyright 2012 - CNoMS</p> <!-- Change the copyright notice -->
+
+           <a href="#" class="up">Go UP</a>
+
+
+        </footer>
+
+		</section> <!-- Closing the #page section -->
+
+        <!-- JavaScript Includes -->
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script src="static/jquery.scrollTo-1.4.2/jquery.scrollTo-min.js"></script>
+        <script src="static/script.js"></script>
+    </body>
 </html>
