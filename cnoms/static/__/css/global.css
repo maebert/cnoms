@@ -4,7 +4,18 @@ body.overview {
     padding: 1px;
     margin: 0px;
 }
-#slider {
+body.cnoms-edit {
+    margin-top: 60px;
+}
+body .redactor_toolbar li a.redactor_btn_save  {
+     background: #358430;
+     border-radius: 15px;
+     -webkit-box-shadow: inset 0px 20px 30px rgba(255,255,255,.5);
+}
+body.changed .redactor_toolbar li a.redactor_btn_save {
+    background: #791e23;
+}
+#cnoms-edit {
     position: fixed;
     top: 0px;
     left: 0px;
@@ -13,7 +24,7 @@ body.overview {
     box-shadow: inset 0px 20px 40px -5px rgba(0,0,0,.2);
     
 }
-#slider input {
+#cnoms-edit input[type=range] {
     width: 80%;
     display: block;
     margin: 5px auto;
@@ -119,18 +130,22 @@ body.overview {
 }
 
 #edit_link{
-    margin-bottom:30px;
+    position: absolute;
+    z-index: 999;
+    top: 5px;
+    right: 10px;
     text-align:center;
-    font-size:1em;
-
-    color:#404449;
-    background-color:#ececec;
+    font-size: 10px;
+    text-decoration: none;
+    opacity: .6;
+    color: white;
+    background-color:black;
     display:inline-block;
-    padding:6px 8px;
-    z-index:100;
-    position:relative;
-    left: 30px;
-    bottom: 1px;
+    padding:6px 12px;
+    border-radius: 5px;
+}
+#edit_link:hover {
+    opacity: 1;
 }
 
 /* Buttons */
