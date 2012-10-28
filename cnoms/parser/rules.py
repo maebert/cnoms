@@ -53,51 +53,60 @@ and resources.
 """
 from parser import Parser
 import os
+import random
 
 @Parser.rule(data_type="item")
-def parse_item(parser, node, parent=False, **kwargs):
+def parse_item(parser, node, parent=None, template="", **kwargs):
     print "PARSING ITEM"
-    name = node.attrs.get('data-fieldname', "{}_{}".format(collection, 777))
-    add_data(node, "parent", collection)
-    add_data(node, "fieldname", "{{ item.__name }}")
+    name = node.attrs.get('data-fieldname', "{}_{}".format(parent, hex(random.randint(0,256**3))[2:]))
+    parser._add_data(node, "parent", parent)
+    parser._add_data(node, "fieldname", "{{ item.__name }}")
     field = {
         "fieldname": name,
-        "parent": collection,
+        "parent": parent,
         "type": "item"
     }
     parser.fields.append(field)
-    parser.parse_children(node, parent=name)    
+    parser.parse_children(node, parent=name)
+#    print node
+    if not parser.tmp.get(template, True):
+        parser.tmp[template] = node
     return False
 
 @Parser.rule(data_fieldname=True, data_type="collection")
 def parse_collection(parser, node, parent=None, **kwargs):
+    print "PARSING COLLECTION"
     name = node.attrs['data-fieldname']
     field = {"fieldname": name, 'type': "collection", "parent": parent}
     parser.fields.append(field)
-    parser.parse_children(node, parent=name)
-
-    item_template = node.children[0]
+    parser.tmp['item_template_'+name] = None
+    print parser.tmp
+    parser.parse_children(node, parent=name, template='item_template_'+name)
     node.parsed = True
     node.clear()
 
     node.insert(0, "{% for item in "+name+" %}")
-    node.insert(1, item_template)
+    node.insert(1, parser.tmp['item_template_'+name])
     node.insert(2, "{% endfor %}")
 
     return False
 
+def rereoutse_field(parser, node, field):
+    filename = node[field]
+    ext = filename[filename.rfind(".")+1:].lower()
+    if ext in ("css", "less", "js", "png", "jpeg", "jpg", "gif", "ico"):
+        parser.resources.append(node[field])
+        filename = os.path.join(parser.user, parser.sitename, node[field])
+        node[field] = "{{ url_for('static', filename='%s') }}" % filename
+
 @Parser.rule(src=True)
-def reroute_static_src(parser, node, parent=None, **kwargs):
-    parser.resources.append(node['src'])
-    filename = os.path.join(parser.user, parser.sitename, node['src'])
-    node['src'] = "{{ url_for('static', filename='%s') }}" % filename
+def reroute_static_src(parser, node, **kwargs):
+    rereoutse_field(parser, node, "src")
     return True
 
 @Parser.rule(href=True)
-def reroute_static_href(parser, node, parent=None, **kwargs):
-    parser.resources.append(node['href'])
-    filename = os.path.join(parser.user, parser.sitename, node['href'])
-    node['href'] = "{{ url_for('static', filename='%s') }}" % filename
+def reroute_static_href(parser, node, **kwargs):
+    rereoutse_field(parser, node, "href")
     return True
  
 @Parser.rule(data_fieldname=True, data_type__nin=("collection", "item"))
@@ -111,7 +120,7 @@ def parse_simple(parser, node, parent=None, **kwargs):
     parent_string = "item." if parent else ""
     node.insert(0, '{{ ' + parent_string + node.attrs['data-fieldname'] + ' }}')
     if parent:
-        add_data(node, "parent", "{{ item.__name }}")
+        parser._add_data(node, "parent", "{{ item.__name }}")
     return True
 
 @Parser.rule(tag="body")

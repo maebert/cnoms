@@ -46,7 +46,8 @@ def import_website(user=None, path_to_site=None):
             save_path = os.path.join(new_templates_path, os.path.basename(filename))
             with open(save_path, 'w') as f:
                 f.write(str(template))
-    print db_fields
+    import json
+    print json.dumps(db_fields, indent=2)
     for db_entry in db_fields:
         Entry.get_or_create(user=user, site=sitename, **db_entry)
     return ''

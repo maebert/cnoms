@@ -13,6 +13,7 @@ import re
 class Parser:
     rules = []
     resources = []
+    tmp = {}
     _comp = {
         '__lt': lambda a, b: a < b,
         '__lte': lambda a, b: a <= b,
@@ -84,7 +85,6 @@ class Parser:
 
     def parse(self, node, **kwargs):
         cont = True
-        new_node = None
         for cond, fn in self.rules:
             applies = self.evaluate(node, cond)
             if applies:
@@ -93,7 +93,7 @@ class Parser:
                 cont = min(cont, result)
         if cont:
             self.parse_children(node, **kwargs)
-        return new_node or node
+        return node
 
     def parse_children(self, node, **kwargs):
         if hasattr(node, 'children'):
@@ -108,6 +108,7 @@ def parse_html(html_doc, user, sitename):
     soup = BeautifulSoup(html_doc)
     parser = Parser(user, sitename)
     template = parser.parse(soup)
+    print template.prettify(formatter=None)
     return template.prettify(formatter=None), parser.fields
 
 
