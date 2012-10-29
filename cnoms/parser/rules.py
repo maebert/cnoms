@@ -58,7 +58,7 @@ import random
 
 @Parser.rule(data_type="item")
 def parse_item(parser, node, parent=None, template="", **kwargs):
-    name = node.attrs.get('data-fieldname', "{}_{}".format(parent, hex(random.randint(0,256**3))[2:]))
+    name = node.attrs.get('data-fieldname', "{}_{}".format(parent, hex(random.randint(0,256**3))[2:])).replace("-", "_")
     parser._add_data(node, "parent", parent)
     parser._add_data(node, "fieldname", "{{ item.__name }}")
     field = {
@@ -74,7 +74,7 @@ def parse_item(parser, node, parent=None, template="", **kwargs):
 
 @Parser.rule(data_fieldname=True, data_type="collection")
 def parse_collection(parser, node, parent=None, **kwargs):
-    name = node.attrs['data-fieldname']
+    name = node.attrs['data-fieldname'].replace("-", "_")
     field = {"fieldname": name, 'type': "collection", "parent": parent}
     parser.fields.append(field)
     parser.tmp['item_template_'+name] = None
@@ -107,14 +107,16 @@ def reroute_static_href(parser, node, **kwargs):
  
 @Parser.rule(data_fieldname=True, data_type__nin=("collection", "item"))
 def parse_simple(parser, node, parent=None, **kwargs):
-    field = {'fieldname': node.attrs['data-fieldname'],
+    name = node.attrs['data-fieldname'].replace("-", "_")
+    value = u"".join([unicode(c) for c in node.contents])
+    field = {'fieldname': name,
        'type': node.attrs.get('data-type', 'html'),
-       'value': node.get_text(),
+       'value': value,
        'parent': parent}
     parser.fields.append(field)
     node.clear()
     parent_string = "item." if parent else ""
-    node.insert(0, '{{ ' + parent_string + node.attrs['data-fieldname'] + ' }}')
+    node.insert(0, '{{ ' + parent_string + name + ' }}')
     if parent:
         parser._add_data(node, "parent", "{{ item.__name }}")
     return True

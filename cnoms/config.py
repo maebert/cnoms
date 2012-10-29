@@ -15,7 +15,7 @@ class Base:
     STATIC_EXT = (".css", ".less", ".scss", ".sass", ".js", ".png", ".jpeg", ".jpg", ".gif", ".ico", ".svg")
     STYLESHEET_EXT = (".css", ".less", ".scss", ".sass")
     STATIC_MEDIA = "cnoms/static/"
-    TEMPLATE_PATH = "templates/"
+    TEMPLATE_PATH = "cnoms/templates/"
 
 class Local(Base):
     HOST = 'localhost'

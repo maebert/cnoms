@@ -1,0 +1,11 @@
+import_website
+tests/simple/*.html
+PARSING node [document]
+<listiterator object at 0x101a16710>
+PARSING node html
+<listiterator object at 0x101a166d0>
+PARSING node head
+<listiterator object at 0x101a16750>
+PARSING node title
+<listiterator object at 0x101a16790>
+PARSING node ?
