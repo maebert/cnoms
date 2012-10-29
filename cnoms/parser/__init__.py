@@ -45,7 +45,7 @@ def import_website(user=None, path_to_site=None):
     parser = Parser(user, sitename)
     for filename in os.listdir(path_to_site):
         if any([filename.endswith(ext) for ext in app.config['HTML_EXT']]):
-            template = parser.parse_file(os.path.join(path_to_site, filename))
+            template = parser.parse_html(os.path.join(path_to_site, filename))
             save_path = os.path.join(new_templates_path, os.path.basename(filename))
             with open(save_path, 'w') as f:
                 f.write(str(template))
@@ -55,13 +55,17 @@ def import_website(user=None, path_to_site=None):
         Entry.get_or_create(user=user, site=sitename, **entry)
 
     for resource in set(parser.resources):
+        if any([resource.endswith(ext) for ext in app.config["STYLESHEET_EXT"]]):
+            parser.parse_css(path_to_site, resource)
+
+    for resource in set(parser.resources):
         source = os.path.join(path_to_site, resource)
         destination = os.path.join(static_path, resource)
         if not os.path.exists(source):
             print "WARNING", source, "does not exist."
         else:
-            if not os.path.exists(os.path.split(destination)[0]):
-                os.makedirs(os.path.split(destination)[0])
+            if not os.path.exists(os.path.dirname(destination)):
+                os.makedirs(os.path.dirname(destination))
             shutil.copyfile(source, destination)
             print "Copying", resource
         

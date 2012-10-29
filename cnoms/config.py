@@ -12,7 +12,8 @@ class Base:
     HOST = '0.0.0.0'
     PORT = 5000
     HTML_EXT = (".htm", ".html")
-    STATIC_EXT = (".css", ".less", ".js", ".png", ".jpeg", ".jpg", ".gif", ".ico")
+    STATIC_EXT = (".css", ".less", ".scss", ".sass", ".js", ".png", ".jpeg", ".jpg", ".gif", ".ico", ".svg")
+    STYLESHEET_EXT = (".css", ".less", ".scss", ".sass")
     STATIC_MEDIA = "cnoms/static/"
     TEMPLATE_PATH = "templates/"
 

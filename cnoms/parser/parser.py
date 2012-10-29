@@ -27,7 +27,8 @@ class Parser:
         '__endswith': lambda a, b: a.endswith(b),
     }
     fields = []
-
+    css_url = re.compile("[^\(]*url[\s]*\([\s]*([^\)]*)[\s]*\)[^\)]*")
+    css_import = re.compile("@import[\s]+(url)?[\s]*\(?([^\);]*)")
 
     def __init__(self, user, sitename):
         self.user = user
@@ -99,12 +100,28 @@ class Parser:
             for child in node.children:
                     self.parse(child, **kwargs)
 
-    def parse_file(self, filename):
-        """ return the template and a list of dictionaries with the
-            containing all information we have to add to the database
-        """
+    def parse_html(self, filename):
         import rules
         with open(filename) as htmlfile:
             soup = BeautifulSoup(htmlfile.read())
             template = self.parse(soup)
             return template.prettify(formatter=None)
+
+    def parse_css(self, site_path, filename):
+        """Parses a CSS, LESS or SASS file, recursively parsing all files declared
+        via @import commands and adding all url(...) objects to the resources."""
+        with open(os.path.join(site_path, filename)) as cssfile:
+            for line in cssfile.readlines():
+                m = self.css_url.match(line.strip())
+                if m:
+                    resource = m.group(1).strip('"').strip("'")
+                    path_to_resource = os.path.join(os.path.dirname(filename), resource)
+                    self.resources.append(path_to_resource)
+                imp = self.css_import.match(line);
+                if imp:
+                    resource = imp.group(2).strip('"').strip("'")
+                    if not any([resource.endswith(ext) for ext in app.config["STYLESHEET_EXT"]]):
+                        resource += os.path.splitext(filename)[1]
+                    path_to_resource = os.path.join(os.path.dirname(filename), resource)
+                    self.resources.append(path_to_resource)
+                    self.parse_css(site_path, path_to_resource)
