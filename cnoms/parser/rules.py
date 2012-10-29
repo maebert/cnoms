@@ -51,13 +51,13 @@ have this format:
 The body of the rule may manipulate the node and extend the parsers' fields
 and resources.
 """
+from cnoms import app
 from parser import Parser
 import os
 import random
 
 @Parser.rule(data_type="item")
 def parse_item(parser, node, parent=None, template="", **kwargs):
-    print "PARSING ITEM"
     name = node.attrs.get('data-fieldname', "{}_{}".format(parent, hex(random.randint(0,256**3))[2:]))
     parser._add_data(node, "parent", parent)
     parser._add_data(node, "fieldname", "{{ item.__name }}")
@@ -68,19 +68,16 @@ def parse_item(parser, node, parent=None, template="", **kwargs):
     }
     parser.fields.append(field)
     parser.parse_children(node, parent=name)
-#    print node
     if not parser.tmp.get(template, True):
         parser.tmp[template] = node
     return False
 
 @Parser.rule(data_fieldname=True, data_type="collection")
 def parse_collection(parser, node, parent=None, **kwargs):
-    print "PARSING COLLECTION"
     name = node.attrs['data-fieldname']
     field = {"fieldname": name, 'type': "collection", "parent": parent}
     parser.fields.append(field)
     parser.tmp['item_template_'+name] = None
-    print parser.tmp
     parser.parse_children(node, parent=name, template='item_template_'+name)
     node.parsed = True
     node.clear()
@@ -93,11 +90,10 @@ def parse_collection(parser, node, parent=None, **kwargs):
 
 def rereoutse_field(parser, node, field):
     filename = node[field]
-    ext = filename[filename.rfind(".")+1:].lower()
-    if ext in ("css", "less", "js", "png", "jpeg", "jpg", "gif", "ico"):
-        parser.resources.append(node[field])
-        filename = os.path.join(parser.user, parser.sitename, node[field])
-        node[field] = "{{ url_for('static', filename='%s') }}" % filename
+    if any(filename.endswith(ext) for ext in app.config['STATIC_EXT']):
+        parser.resources.append(filename)
+        new_filename = os.path.join(parser.user, parser.sitename, filename)
+        node[field] = "{{ url_for('static', filename='%s') }}" % new_filename
 
 @Parser.rule(src=True)
 def reroute_static_src(parser, node, **kwargs):

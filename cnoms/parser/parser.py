@@ -29,10 +29,9 @@ class Parser:
     fields = []
 
 
-    def __init__(self, user, sitename, page=None):
+    def __init__(self, user, sitename):
         self.user = user
         self.sitename = sitename
-        self.page = page
 
     @classmethod
     def rule(cls, **cond):
@@ -100,19 +99,12 @@ class Parser:
             for child in node.children:
                     self.parse(child, **kwargs)
 
-def parse_html(html_doc, user, sitename):
-    """ return the template and a list of dictionaries with the
-        containing all information we have to add to the database
-    """
-    import rules
-    soup = BeautifulSoup(html_doc)
-    parser = Parser(user, sitename)
-    template = parser.parse(soup)
-    print template.prettify(formatter=None)
-    return template.prettify(formatter=None), parser.fields
-
-
-if __name__ == '__main__':
-    path = os.path.dirname(__file__)
-    with open(os.path.join(path, '..', '..', 'tests', 'test1.html')) as f:
-        template, for_db = parse_html(f.read())
+    def parse_file(self, filename):
+        """ return the template and a list of dictionaries with the
+            containing all information we have to add to the database
+        """
+        import rules
+        with open(filename) as htmlfile:
+            soup = BeautifulSoup(htmlfile.read())
+            template = self.parse(soup)
+            return template.prettify(formatter=None)

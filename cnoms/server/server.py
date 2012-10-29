@@ -6,7 +6,6 @@
 import os, glob, json
 from flask import Response
 from cnoms.models import Entry
-from cnoms.parser.parser import parse_html
 from cnoms import app
 from flask import Response, render_template_string, request, render_template
 from datetime import datetime
