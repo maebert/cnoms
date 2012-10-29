@@ -51,7 +51,6 @@ def import_website(user=None, path_to_site=None):
                 f.write(str(template))
 
     for entry in parser.fields:
-        #print u"{:15}: {:40} ({})".format(entry.get("fieldname", "---"), entry.get("value", "---").strip("\n")[:40], entry.get("type", "/"))
         Entry.get_or_create(user=user, site=sitename, **entry)
 
     for resource in set(parser.resources):

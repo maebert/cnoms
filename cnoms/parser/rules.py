@@ -56,17 +56,18 @@ from parser import Parser
 import os
 import random
 
+def safe_name(node, default=None):
+    name = node.attrs.get("data-fieldname", default)
+    new_name = "".join(map(lambda c: "_" if c in "- ,.;/*\\+&%$#@" else c, name.strip()))
+    node.attrs["data-fieldname"] = new_name
+    return new_name
+
 @Parser.rule(data_type="item")
 def parse_item(parser, node, parent=None, template="", **kwargs):
-    name = node.attrs.get('data-fieldname', "{}_{}".format(parent, hex(random.randint(0,256**3))[2:])).replace("-", "_")
+    name = safe_name(node, "{}_{}".format(parent, hex(random.randint(0,256**3))[2:]))
     parser._add_data(node, "parent", parent)
     parser._add_data(node, "fieldname", "{{ item.__name }}")
-    field = {
-        "fieldname": name,
-        "parent": parent,
-        "type": "item"
-    }
-    parser.fields.append(field)
+    parser.add_field(fieldname=name, type="item", value="", parent=parent)
     parser.parse_children(node, parent=name)
     if not parser.tmp.get(template, True):
         parser.tmp[template] = node
@@ -74,9 +75,8 @@ def parse_item(parser, node, parent=None, template="", **kwargs):
 
 @Parser.rule(data_fieldname=True, data_type="collection")
 def parse_collection(parser, node, parent=None, **kwargs):
-    name = node.attrs['data-fieldname'].replace("-", "_")
-    field = {"fieldname": name, 'type': "collection", "parent": parent}
-    parser.fields.append(field)
+    name = safe_name(node)
+    parser.add_field(fieldname=name, type="collection", value="", parent=parent)
     parser.tmp['item_template_'+name] = None
     parser.parse_children(node, parent=name, template='item_template_'+name)
     node.parsed = True
@@ -107,13 +107,9 @@ def reroute_static_href(parser, node, **kwargs):
  
 @Parser.rule(data_fieldname=True, data_type__nin=("collection", "item"))
 def parse_simple(parser, node, parent=None, **kwargs):
-    name = node.attrs['data-fieldname'].replace("-", "_")
+    name = safe_name(node)
     value = u"".join([unicode(c) for c in node.contents])
-    field = {'fieldname': name,
-       'type': node.attrs.get('data-type', 'html'),
-       'value': value,
-       'parent': parent}
-    parser.fields.append(field)
+    parser.add_field(fieldname=name, type=node.attrs.get('data-type', 'html'), value=value, parent=parent)
     node.clear()
     parent_string = "item." if parent else ""
     node.insert(0, '{{ ' + parent_string + name + ' }}')

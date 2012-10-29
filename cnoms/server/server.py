@@ -71,13 +71,16 @@ def get_field_history(user, site, fieldname=None):
 @app.route('/<user>/<site>/<template>')
 def show_template(user, site, template=None, edit=False):
     """render a template with the latest content for an entry"""
-    entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.asc())
+    entries = Entry.select().where(Entry.user==user, Entry.site==site).order_by(Entry.created.desc())
+    for e in entries:
+        print e.fieldname, e.value.replace("\n", "")[:60]
     seen_entries = []
     simple_entries = []
     collections = {}
     items = {}
     for e in entries:
-        if e.unique_id not in seen_entries:
+        identifier = "{}_{}".format(e.parent, e.fieldname)
+        if not identifier in seen_entries:
             if e.type == "collection" and e.fieldname not in collections:
                 collections[e.fieldname] = []
             elif e.type == "item":
@@ -87,7 +90,7 @@ def show_template(user, site, template=None, edit=False):
                 items.get(e.parent, {})[e.fieldname] = e.value
             else:
                 simple_entries.append(e)
-            seen_entries.append(e.unique_id)
+            seen_entries.append(identifier)
 
     data = {entry.fieldname: entry.value for entry in simple_entries}
     collections = {k: [items.get(item, {}) for item in kitems] for k, kitems in collections.items()}

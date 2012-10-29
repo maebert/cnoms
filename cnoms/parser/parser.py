@@ -51,6 +51,14 @@ class Parser:
         if "data-"+key not in node.attrs:
             node.attrs["data-"+key] = value
 
+    def add_field(self, **kwargs):
+        if not any([f['fieldname'] == kwargs.get("fieldname") and f['parent'] == kwargs.get("parent", None) for f in self.fields]):
+            self.fields.append(kwargs)
+        else:
+            for f in self.fields:
+                if f['fieldname'] == kwargs.get("fieldname") and f['parent'] == kwargs.get("parent", None) and not f.get("value", None):
+                    f['value'] = kwargs.get("value", "")
+
     def evaluate(self, node, conds):
         attribute = lambda attr: self._attr(node, attr, None)
         for cond, value in conds.items():
